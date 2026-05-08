@@ -10,12 +10,8 @@ import PartnerForm from "./components/PartnerForm";
 import CakeBuilder from "./components/commande";
 import Pastryshops from "./components/wilyas";
 import ShopLogin from "./components/PastryLogin";
-import ProfilePage from "./pages/ProfilePage";
-import OrdersPage from "./pages/OrdersPage";
 import DashboardPage from "./components/DashboardPage";
 import DeliveryDetails from "./components/Livraison";
-import { AuthProvider } from "./contexts/AuthContext";
-import { ToastProvider } from "./components/Toast";
 import AppLayout from "./components/AppLayout";
 import BakerSelectionPage from "./components/BakersList";
 import "./styles/global.css";
@@ -24,8 +20,7 @@ import "./styles/dashboard.css";
 
 function App() {
   return (
-    <AuthProvider>
-      <ToastProvider>
+    
         <BrowserRouter>
           <Routes>
 
@@ -45,14 +40,12 @@ function App() {
             {/* Dashboard Layout */}
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
+            
             </Route>
 
           </Routes>
         </BrowserRouter>
-      </ToastProvider>
-    </AuthProvider>
+   
   );
 }
 
