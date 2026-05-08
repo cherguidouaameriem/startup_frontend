@@ -9,8 +9,6 @@ import Home from "./Home";
 import PartnerForm from "./components/PartnerForm";
 import CakeBuilder from "./components/commande";
 import Pastryshops from "./components/wilyas";
-import RectangleCakevanilla from "./components/cakeflavour/vanilla";
-import MiniCakedeco from "./components/decorations/pouchage";
 import ShopLogin from "./components/PastryLogin";
 import ProfilePage from "./pages/ProfilePage";
 import OrdersPage from "./pages/OrdersPage";
@@ -39,7 +37,6 @@ function App() {
             <Route path="/order-confirmation" element={<OrderConfirmation />} />
             <Route path="/pastry-shops" element={<Pastryshops />} />
             <Route path="/vanilla" element={<VanillaCake/>} />
-            <Route path="/model1" element={<MiniCakedeco />} />
             <Route path="/connexion_patis" element={<ShopLogin/>}/>
             <Route path="/delivery" element={<DeliveryDetails />} />
             <Route path="/bakers" element={<BakerSelectionPage/>}/>
