@@ -1,0 +1,42 @@
+.preview {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty {
+  color: #aaa;
+}
+
+.price-box {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #fafafa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-box h2 {
+  color: #c8194a;
+}
+
+.price-box button {
+  background: #c8194a;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}

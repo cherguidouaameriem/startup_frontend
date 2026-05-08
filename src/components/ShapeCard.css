@@ -1,0 +1,60 @@
+.shape-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.shape-card:hover {
+  transform: translateY(-4px);
+}
+
+.shape-card.selected {
+  border: 2px solid #c8194a;
+}
+
+.image-area {
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff5f8;
+  position: relative;
+}
+
+.image-area img {
+  width: 120%;
+  object-fit: contain;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: #c8194a;
+  font-size: 12px;
+}
+
+.details {
+  padding: 16px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  color: #c8194a;
+  font-weight: bold;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}

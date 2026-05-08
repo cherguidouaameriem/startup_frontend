@@ -1,0 +1,44 @@
+.selector {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid #eee;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin-bottom: 5px;
+}
+
+.header p {
+  color: #777;
+  font-size: 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footer button {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  background: #c8194a;
+  color: white;
+  cursor: pointer;
+}
+
+.footer button:disabled {
+  background: #ccc;
+}
