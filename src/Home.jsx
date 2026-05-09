@@ -8,14 +8,13 @@ import HeroSection from "./sections/Herosection";
 import Howitworkssection from "./sections/Howitworkssection";
 import PastriesSection from "./sections/Pastriessection";
 import FeaturesSection from "./sections/Featuressection";
-import CTASection from "./sections/Ctasection";
 import BakeryPartnerSection from "./sections/Bakerypartnersection";
-import PartnersSection from "./sections/Partnerssection";
+
 export default function Home() {
   const navigate = useNavigate();
 
-  const [partners] = useState([]); // will come from backend later
-  const [pastries] = useState([]); // will come from backend later
+  const [partners] = useState([]);
+  const [pastries] = useState([]);
   const [loading] = useState(false);
 
   const handleStartDesigning = () => {
@@ -23,11 +22,9 @@ export default function Home() {
   };
 
   const handleBrowseShops = () => {
-    document.getElementById("partners")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleViewPartner = (partner) => {
-    console.log("View partner:", partner?.id);
+    document
+      .getElementById("partners")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleCustomize = (pastry) => {
@@ -48,18 +45,6 @@ export default function Home() {
 
   return (
     <div style={pageStyles.root}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
-
-        * { box-sizing: border-box; }
-
-        body {
-          margin: 0;
-          padding: 0;
-          font-family: 'DM Sans', sans-serif;
-        }
-      `}</style>
-
       <Navbar onLogin={handleLogin} onSignup={handleSignup} />
 
       <main>
@@ -68,7 +53,6 @@ export default function Home() {
           onBrowseShops={handleBrowseShops}
         />
 
-        {/* IMPORTANT: NO fake data passed */}
         <Howitworkssection />
 
         <div id="pastries">
@@ -81,7 +65,9 @@ export default function Home() {
 
         <FeaturesSection />
 
-        <BakeryPartnerSection onBePartner={handleBePartner} />
+        <BakeryPartnerSection
+          onBePartner={handleBePartner}
+        />
       </main>
 
       <Footer />
