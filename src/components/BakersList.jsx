@@ -5,7 +5,7 @@ import './BakersList.css';
 
 import Navbar from './Navbar';
 import Footer from './Footer';
-import Button from './Button';
+import Button from './button';
 
 const BakerSelectionPage = () => {
   const [bakers, setBakers] = useState([]);
