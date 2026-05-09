@@ -7,15 +7,13 @@ require("dotenv").config();
 const app = express();
 
 // 🔥 MIDDLEWARE
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "https://startup-frontend-beryl.vercel.app/"
-    ],
-    credentials: true,
-  })
-);app.use(express.json());
+app.use(cors({
+  origin: [
+    "https://startup-frontend-37tg.vercel.app"
+  ],
+  credentials: true
+}));
+app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // 🔥 ROUTES
 const partnerRoutes = require("./routes/partnersRoutes");
