@@ -63,7 +63,7 @@ export default function Home() {
       <Navbar onLogin={handleLogin} onSignup={handleSignup} />
 
       <main>
-        <HeroSection
+        <Herosection
           onStartDesigning={handleStartDesigning}
           onBrowseShops={handleBrowseShops}
         />
@@ -72,16 +72,16 @@ export default function Home() {
         <Howitworkssection />
 
         <div id="pastries">
-          <PastriesSection
+          <Pastriessection
             pastries={pastries}
             onCustomize={handleCustomize}
             loading={loading}
           />
         </div>
 
-        <FeaturesSection />
+        <Featuressection />
 
-        <BakeryPartnerSection onBePartner={handleBePartner} />
+        <Bakerypartnersection onBePartner={handleBePartner} />
       </main>
 
       <Footer />
