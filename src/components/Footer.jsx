@@ -68,7 +68,7 @@ export default function Footer({ links = defaultLinks }) {
 
 const styles = {
   footer: {
-    background: "#eb6988",
+    background: "#C8194A",
     padding: "56px 24px 32px",
   },
   inner: {
