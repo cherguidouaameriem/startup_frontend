@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import * as THREE from "three";
 import Topper from "../decorations/Topper";
-import DecorLayer from "../decorations/pouchage";
+import DecorLayer from "../decorations/Pouchage";
 import DrapageVague from "../decorations/Pring";
 /* -------------------- TIER -------------------- */
 function Tier({ radius, height, color, roughness }) {
