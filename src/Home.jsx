@@ -7,11 +7,10 @@ import Footer from "./components/Footer";
 import HeroSection from "./sections/Herosection";
 import Howitworkssection from "./sections/Howitworkssection";
 import PastriesSection from "./sections/Pastriessection";
-import PartnersSection from "./sections/Partnerssection";
 import FeaturesSection from "./sections/Featuressection";
 import CTASection from "./sections/Ctasection";
 import BakeryPartnerSection from "./sections/Bakerypartnersection";
-
+import PartnersSection from "./sections/Partnerssection";
 export default function Home() {
   const navigate = useNavigate();
 
