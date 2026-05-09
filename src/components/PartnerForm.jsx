@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import {API} from "./api";
+import {API} from "../api";
 import { 
   Store, User, Phone, Mail, MapPin, Instagram, 
   Facebook, Globe, ClipboardList, Image as ImageIcon, 

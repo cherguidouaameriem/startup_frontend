@@ -6,7 +6,7 @@ import {
   CheckCircle, XCircle, Eye, TrendingUp, 
   Users, DollarSign, Package, BadgeCheck
 } from "lucide-react";
-import {API} from "./api";
+import {API} from "../api";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("Overview");

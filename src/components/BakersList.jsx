@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapPin, Store, Star, CheckCircle, Eye, ArrowLeft } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './BakersList.css';
-import { API } from "./api";
+import { API } from "../api";
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Button from './button';

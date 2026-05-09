@@ -7,7 +7,7 @@ import {
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import './DashboardPage.css';
-import {API} from "./api";
+import {API} from "../api";
 const DashboardPage = () => {
 const [editData, setEditData] = useState({
   shopName: "",

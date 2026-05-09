@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Icon from "../components/Icon";
 import Button from "../components/button";
-import { API } from "./api";
+import { API } from "../api";
 const CATEGORIES = ["Tous", "Oran", "Alger", "Autre"];
 
 // ─── STAR ─────────────────────────────

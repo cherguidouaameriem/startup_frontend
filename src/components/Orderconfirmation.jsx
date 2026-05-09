@@ -3,7 +3,7 @@ import { Cake, User, Phone, MapPin, Clock, Check, Truck, Calendar } from "lucide
 import "./OrderConfirmation.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import {API} from "./api";
+import {API} from "../api";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function OrderConfirmation() {

@@ -4,7 +4,7 @@ import { Eye, EyeOff, ChefHat } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast"; // 🔥 Import des notifications
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import {API} from "./api";
+import {API} from "../api";
 export default function ShopLogin() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
