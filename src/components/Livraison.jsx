@@ -3,9 +3,8 @@ import './Livraison.css';
 import { MapPin, Store, Palette, Info, ChevronRight, ArrowLeft } from 'lucide-react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import Button from './Button';
 import { useNavigate } from "react-router-dom";
-
+import Button from './button';
 const SelectWilayaPage = () => {
   const navigate = useNavigate(); // ✅ ici
 
