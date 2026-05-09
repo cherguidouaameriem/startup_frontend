@@ -1,98 +1,315 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, ContactShadows } from "@react-three/drei";
-import DrapageVague from "../components/decorations/Pring";
+import {
+  OrbitControls,
+  Environment,
+  ContactShadows,
+} from "@react-three/drei";
 
-/* ───── pouchage pearls (fixed alignment) ───── */
-function PouchageRing({
-  radius = 1.2,
-  y = 0.52, // 🔥 lowered for better contact with cake
-  count = 100,
-  color = "#C8194A",
+import * as THREE from "three";
+
+/* -------------------- DRAPAGE -------------------- */
+function DrapageVague({
+  radius,
+  height,
+  color = "#fff4c7",
 }) {
-  return (
-    <group>
-      {Array.from({ length: count }).map((_, i) => {
-        const angle = (i / count) * Math.PI * 2;
+  const curvePoints = useMemo(() => {
+    const pts = [];
+    const segments = 180;
+    const loops = 60;
+    const waveDepth = -0.04;
+    const offsetOut = 0.02;
 
-        return (
-          <mesh
-            key={i}
-            position={[
-              Math.cos(angle) * radius,
-              y,
-              Math.sin(angle) * radius,
-            ]}
-          >
-            <sphereGeometry args={[0.04, 12, 12]} />
-            <meshStandardMaterial color={color} roughness={0.4} />
-          </mesh>
-        );
-      })}
-    </group>
+    for (let i = 0; i <= segments; i++) {
+      const theta =
+        (i / segments) * Math.PI * 2;
+
+      const x =
+        (radius + offsetOut) *
+        Math.cos(theta);
+
+      const z =
+        (radius + offsetOut) *
+        Math.sin(theta);
+
+      const y =
+        height -
+        0.08 -
+        Math.abs(
+          Math.sin(theta * (loops / 2))
+        ) *
+          waveDepth;
+
+      pts.push(new THREE.Vector3(x, y, z));
+    }
+
+    return pts;
+  }, [radius, height]);
+
+  const curve = useMemo(
+    () =>
+      new THREE.CatmullRomCurve3(
+        curvePoints,
+        true
+      ),
+    [curvePoints]
   );
-}
 
-/* ───── cake base ───── */
-function CakeBase() {
   return (
-    <mesh castShadow receiveShadow position={[0, -0.01, 0]}>
-      {/* slight sink avoids "hovering" effect */}
-      <cylinderGeometry args={[1.2, 1.2, 1.2, 64]} />
-      <meshStandardMaterial color="#f5e6c8" roughness={0.6} />
+    <mesh>
+      <tubeGeometry
+        args={[curve, 128, 0.05, 8, true]}
+      />
+
+      <meshStandardMaterial
+        color={color}
+        roughness={0.3}
+      />
     </mesh>
   );
 }
 
-/* ───── hero cake ───── */
-function HeroCake() {
+/* -------------------- PEARLS -------------------- */
+function Pearl({
+  position,
+  color = "#C8194A",
+  size = 0.066,
+}) {
   return (
-    <group>
-      {/* base cake */}
-      <CakeBase />
+    <mesh position={position} castShadow>
+      <sphereGeometry args={[size, 16, 16]} />
 
-      {/* ───── middle icing layer ───── */}
-      <mesh position={[0, 0.2, 0]}>
-        <cylinderGeometry args={[1.15, 1.15, 0.4, 64]} />
-        <meshStandardMaterial color="#fff1f4" roughness={0.3} />
+      <meshStandardMaterial
+        color={color}
+        roughness={0.6}
+        metalness={0.1}
+      />
+    </mesh>
+  );
+}
+
+/* -------------------- CANDLE -------------------- */
+function Candle({
+  position,
+  candleColor = "#ffffff",
+  flameColor = "#ffb347",
+}) {
+  return (
+    <group position={position}>
+      {/* candle body */}
+      <mesh castShadow>
+        <cylinderGeometry args={[0.04, 0.04, 0.35, 16]} />
+        <meshStandardMaterial
+          color={candleColor}
+          roughness={0.4}
+        />
       </mesh>
 
-      {/* ───── drapage (FIXED height) ───── */}
-      <group position={[0, 0.6, 0]}>
-        <DrapageVague radius={1.22} height={0.04} color="#b62863" />
-      </group>
-
-      {/* ───── pouchage pearls (FIXED height) ───── */}
-       <PouchageRing radius={1.22} y={-0.58} color="#C8194A" />
-              <PouchageRing radius={1.20} y={0.6} color="#C8194A" />
-
+      {/* flame */}
+      <mesh position={[0, 0.24, 0]}>
+        <sphereGeometry args={[0.05, 12, 12]} />
+        <meshStandardMaterial
+          color={flameColor}
+          emissive={flameColor}
+          emissiveIntensity={2}
+        />
+      </mesh>
     </group>
   );
 }
 
-/* ───── SCENE ───── */
+/* -------------------- CAKE TIER -------------------- */
+function Tier({
+  radius,
+  height,
+  color,
+  pearlColor,
+}) {
+  const points = useMemo(() => {
+    const pts = [];
+    const segments = 18;
+    const bevel = 0.12;
+
+    pts.push(new THREE.Vector2(0, 0));
+    pts.push(new THREE.Vector2(radius, 0));
+
+    pts.push(
+      new THREE.Vector2(
+        radius,
+        height - bevel
+      )
+    );
+
+    for (let i = 0; i <= segments; i++) {
+      const angle =
+        (i / segments) * (Math.PI / 2);
+
+      const x =
+        radius -
+        bevel +
+        Math.cos(angle) * bevel;
+
+      const y =
+        height -
+        bevel +
+        Math.sin(angle) * bevel;
+
+      pts.push(new THREE.Vector2(x, y));
+    }
+
+    pts.push(new THREE.Vector2(0, height));
+
+    return pts;
+  }, [radius, height]);
+
+  const pearls = useMemo(() => {
+    const items = [];
+    const count = 80;
+
+    for (let i = 0; i < count; i++) {
+      const angle =
+        (i / count) * Math.PI * 2;
+
+      items.push({
+        id: i,
+        position: [
+          Math.cos(angle) * (radius + 0.02),
+          0.05,
+          Math.sin(angle) * (radius + 0.02),
+        ],
+      });
+    }
+
+    return items;
+  }, [radius]);
+
+  return (
+    <group>
+      {/* cake */}
+      <mesh castShadow receiveShadow>
+        <latheGeometry args={[points, 128]} />
+
+        <meshStandardMaterial
+          color={color}
+          roughness={0.55}
+          metalness={0.03}
+        />
+      </mesh>
+
+      {/* pearls */}
+      {pearls.map((item) => (
+        <Pearl
+          key={item.id}
+          position={item.position}
+          color={pearlColor}
+        />
+      ))}
+    </group>
+  );
+}
+
+/* -------------------- READY CAKE -------------------- */
+function ReadyCake() {
+  const cakeColor = "#fff1b8";
+  const pearlColor = "#C8194A";
+  const drapageColor = "#C8194A";
+
+  return (
+    <group position={[0, -0.8, 0]}>
+      {/* bottom tier */}
+      <Tier
+        radius={1.5}
+        height={1.2}
+        color={cakeColor}
+        pearlColor={pearlColor}
+      />
+
+      {/* drapage */}
+      <DrapageVague
+        radius={1.5}
+        height={1.2}
+        color={drapageColor}
+      />
+
+      {/* top tier */}
+      <group position={[0, 1.2, 0]}>
+        <Tier
+          radius={1.1}
+          height={1.1}
+          color={cakeColor}
+          pearlColor={pearlColor}
+        />
+
+        {/* drapage top */}
+        <DrapageVague
+          radius={1.1}
+          height={1.1}
+          color={drapageColor}
+        />
+
+        {/* candles */}
+        <Candle position={[0, 1.2, 0]} />
+
+        <Candle
+          position={[0.25, 1.15, 0.1]}
+          candleColor="#ffd6e7"
+        />
+
+        <Candle
+          position={[-0.25, 1.15, -0.05]}
+          candleColor="#ffffff"
+        />
+
+        <Candle
+          position={[0.05, 1.18, -0.22]}
+          candleColor="#ffe8a3"
+        />
+      </group>
+    </group>
+  );
+}
+
+/* -------------------- HERO SCENE -------------------- */
 export default function HeroCakeScene() {
   return (
-    <div style={{ width: "100%", height: "420px" }}>
-      <Canvas camera={{ fov: 50 }}>
-        <Environment preset="studio" />
+    <div
+      style={{
+        width: "100%",
+        height: "420px",
+      }}
+    >
+      <Canvas
+        shadows
+        camera={{
+          position: [0, 2, 6],
+          fov: 45,
+        }}
+      >
+        {/* lights */}
+        <ambientLight intensity={0.5} />
 
-        {/* lighting */}
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[3, 5, 2]} intensity={1} />
+        <directionalLight
+          position={[5, 8, 5]}
+          intensity={1.4}
+          castShadow
+        />
 
-        {/* cake (NO FLOAT → fixes drifting issue) */}
-        <HeroCake />
+        {/* environment */}
+        <Environment preset="city" />
 
-        {/* shadows grounded properly */}
+        {/* cake */}
+        <ReadyCake />
+
+        {/* shadows */}
         <ContactShadows
-          position={[0, -1.05, 0]}
-          opacity={0.5}
+          position={[0, -1.1, 0]}
+          opacity={0.45}
           scale={10}
           blur={2.5}
         />
 
-        {/* auto rotation ONLY */}
+        {/* controls */}
         <OrbitControls
           enableZoom={false}
           enablePan={false}
