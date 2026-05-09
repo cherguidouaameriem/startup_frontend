@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 
 import HeroSection from "./sections/Herosection";
 import Howitworkssection from "./sections/Howitworkssection";
-import PastriesSection from "./sections/Pastriessection";
+import PastriesSection from "./sections/PastriesSection";
 import FeaturesSection from "./sections/Featuressection";
 import BakeryPartnerSection from "./sections/Bakerypartnersection";
 
