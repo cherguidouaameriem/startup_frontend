@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Icon from "../components/Icon";
 import Button from "../components/button";
-
+import { API } from "./api";
 const CATEGORIES = ["Tous", "Oran", "Alger", "Autre"];
 
 // ─── STAR ─────────────────────────────
@@ -21,7 +21,7 @@ function PastryCard({ pastry, onView }) {
       <div style={cardStyles.imageArea}>
         {pastry.logoFile ? (
           <img
-            src={`http://localhost:5000/uploads/${pastry.logoFile}`}
+            src={`${API}/uploads/${pastry.logoFile}`}
             alt={pastry.shopName}
             style={cardStyles.image}
             onError={(e) => {
@@ -71,8 +71,8 @@ export default function PastriesSection({ onViewPastry }) {
       try {
         const url =
           activeCategory === "Tous"
-            ? "http://localhost:5000/api/partners"
-            : `http://localhost:5000/api/partners?wilaya=${activeCategory}`;
+            ? `${API}/api/partners`
+            : `${API}/api/partners?wilaya=${activeCategory}`;
 
         const res = await fetch(url);
         const data = await res.json();

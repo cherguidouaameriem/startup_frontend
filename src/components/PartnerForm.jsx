@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import {API} from "./api";
 import { 
   Store, User, Phone, Mail, MapPin, Instagram, 
   Facebook, Globe, ClipboardList, Image as ImageIcon, 
@@ -37,7 +38,7 @@ const handleSubmit = async () => {
       data.append("logoFile", formData.logoFile);
     }
 
-    const res = await fetch("http://localhost:5000/api/partners", {
+    const res = await fetch(`${API}/api/partners`, {
       method: "POST",
       body: data, // ❌ NO JSON
     });

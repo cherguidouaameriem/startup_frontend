@@ -4,7 +4,7 @@ import { Eye, EyeOff, ChefHat } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast"; // 🔥 Import des notifications
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-
+import {API} from "./api";
 export default function ShopLogin() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +25,7 @@ export default function ShopLogin() {
     const loadingToast = toast.loading("Connexion en cours...");
 
     try {
-      const res = await fetch("http://localhost:5000/api/partners/login", {
+      const res = await fetch(`${API}/api/partners/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

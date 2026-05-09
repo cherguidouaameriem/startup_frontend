@@ -7,7 +7,7 @@ import {
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import './DashboardPage.css';
-
+import {API} from "./api";
 const DashboardPage = () => {
 const [editData, setEditData] = useState({
   shopName: "",
@@ -51,7 +51,7 @@ const handleUpdateProfile = async () => {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `http://localhost:5000/api/partners/${partner._id}`,
+      `${API}/api/partners/${partner._id}`,
       {
         method: "PUT",
         headers: {
@@ -84,7 +84,7 @@ const handleUpdateProfile = async () => {
     const fetchPartner = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:5000/api/partners/me", {
+        const res = await fetch(`${API}/api/partners/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -104,7 +104,7 @@ const handleUpdateProfile = async () => {
   const fetchOrders = async () => {
     if (!partner?._id) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/patisserie/${partner._id}`);
+      const res = await fetch(`${API}/api/orders/patisserie/${partner._id}`);
       const data = await res.json();
       if (res.ok) setOrders(data);
     } catch (err) {
@@ -119,7 +119,7 @@ const handleUpdateProfile = async () => {
   // 3. Modifier le statut 🔥 (Confirmé, Annulé, Livré)
   const updateStatus = async (orderId, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const res = await fetch(`${API}/api/orders/${orderId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -191,7 +191,7 @@ const handleUpdateProfile = async () => {
       <div className="profile-top">
         {partner.logoFile ? (
           <img
-            src={`http://localhost:5000/uploads/${partner.logoFile}`}
+            src={`${API}/uploads/${partner.logoFile}`}
             alt={partner.shopName}
             className="profile-logo"
           />

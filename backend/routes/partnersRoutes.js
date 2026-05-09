@@ -80,7 +80,7 @@ router.get("/", async (req, res) => {
       filter.wilaya = { $regex: new RegExp(`^${wilaya}$`, "i") };
     }
 
-    const partners = await Partner.find(filter);
+    const partners = await Partner.find(filter).select("-password");
 
     res.json(partners);
   } catch (err) {

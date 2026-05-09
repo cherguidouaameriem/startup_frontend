@@ -6,6 +6,7 @@ import {
   CheckCircle, XCircle, Eye, TrendingUp, 
   Users, DollarSign, Package, BadgeCheck
 } from "lucide-react";
+import {API} from "./api";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -13,7 +14,7 @@ const [applications, setApplications] = useState([]);
 const [selectedApplication, setSelectedApplication] = useState(null);useEffect(() => {
   const fetchApplications = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/partners/applications");
+      const res = await fetch(`${API}/api/partners/applications`);
       const data = await res.json();
       setApplications(data);
     } catch (err) {
@@ -29,7 +30,7 @@ const [selectedApplication, setSelectedApplication] = useState(null);useEffect((
 
 const handleApprove = async (id) => {
   try {
-    await fetch(`http://localhost:5000/api/partners/approve/${id}`, {
+    await fetch(`${API}/api/partners/approve/${id}`, {
       method: "PUT",
     });
 

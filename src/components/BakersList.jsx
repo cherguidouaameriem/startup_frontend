@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapPin, Store, Star, CheckCircle, Eye, ArrowLeft } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './BakersList.css';
-
+import { API } from "./api";
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Button from './button';
@@ -23,7 +23,7 @@ const [selectedBaker, setSelectedBaker] = useState(null);
     const fetchBakers = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/partners?wilaya=${wilaya}`
+          `${API}/api/partners?wilaya=${wilaya}`
         );
 
         const data = await res.json();
@@ -68,7 +68,6 @@ const [selectedBaker, setSelectedBaker] = useState(null);
           </p>
         </div>
 
-        {/* ❌ aucun résultat */}
         {bakers.length === 0 && (
           <p style={{ textAlign: 'center' }}>
             Aucun pâtissier disponible pour le moment 😢
@@ -90,7 +89,7 @@ const [selectedBaker, setSelectedBaker] = useState(null);
                     <div className="baker-icon-wrapper">
                       {baker.logoFile ? (
                         <img
-                          src={`http://localhost:5000/uploads/${baker.logoFile}`}
+                          src={`${API}/uploads/${baker.logoFile}`}
                           alt="logo"
                           style={{ width: 40, height: 40, borderRadius: '50%' }}
                         />

@@ -3,6 +3,7 @@ import { Cake, User, Phone, MapPin, Clock, Check, Truck, Calendar } from "lucide
 import "./OrderConfirmation.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import {API} from "./api";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function OrderConfirmation() {
@@ -33,7 +34,7 @@ export default function OrderConfirmation() {
 
   const handleSubmit = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/orders", {
+    const res = await fetch(`${API}/api/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
 
