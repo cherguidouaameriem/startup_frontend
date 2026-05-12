@@ -1,69 +1,10 @@
-import { useState, useEffect } from "react";
-import Icon from "../components/Icon";
-import Button from "../components/button";
-import { API } from "../api";
-const CATEGORIES = ["Tous", "Oran", "Alger", "Autre"];
+export default function PastriesSection() {
+  const navigate = useNavigate();
 
-// ─── STAR ─────────────────────────────
-function StarRating({ rating }) {
-  return (
-    <span style={ratingStyles.wrapper}>
-      <Icon name="star" size={14} color="#f59e0b" />
-      <span style={ratingStyles.text}>{rating || 4.5}</span>
-    </span>
-  );
-}
-
-// ─── CARD ─────────────────────────────
-function PastryCard({ pastry, onView }) {
-  return (
-    <div style={cardStyles.card}>
-      <div style={cardStyles.imageArea}>
-        {pastry.logoFile ? (
-          <img
-            src={`${API}/uploads/${pastry.logoFile}`}
-            alt={pastry.shopName}
-            style={cardStyles.image}
-            onError={(e) => {
-              e.target.style.display = "none";
-            }}
-          />
-        ) : (
-          <div style={cardStyles.imagePlaceholder}>
-            <Icon name="store" size={40} color="#e8a0b8" />
-          </div>
-        )}
-      </div>
-
-      <div style={cardStyles.info}>
-        <h3 style={cardStyles.name}>{pastry.shopName}</h3>
-
-        <StarRating rating={pastry.rating} />
-
-        <p style={cardStyles.specialty}>{pastry.description}</p>
-
-        <span style={cardStyles.meta}>{pastry.shopAddress}</span>
-
-        <Button
-          variant="secondary"
-          size="sm"
-          fullWidth
-          onClick={() => onView?.(pastry)}
-        >
-          Voir la pâtisserie
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-// ─── MAIN ─────────────────────────────
-export default function PastriesSection({ onViewPastry }) {
   const [activeCategory, setActiveCategory] = useState("Tous");
   const [pastries, setPastries] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // 🔥 FETCH
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -91,10 +32,8 @@ export default function PastriesSection({ onViewPastry }) {
   return (
     <section style={styles.section}>
       <div style={styles.inner}>
-        {/* HEADER */}
         <h2 style={styles.title}>Nos pâtisseries</h2>
 
-        {/* FILTER */}
         <div style={styles.filterRow}>
           {CATEGORIES.map((cat) => (
             <button
@@ -112,26 +51,22 @@ export default function PastriesSection({ onViewPastry }) {
           ))}
         </div>
 
-        {/* GRID */}
         {loading ? (
           <p>Chargement...</p>
         ) : (
           <div style={styles.grid}>
-          {pastries.slice(0, 4).map((p) => {
-  console.log(p);
-
-  return (
-    <PastryCard
-      key={p._id}
-      pastry={p}
-      onView={onViewPastry}
-    />
-  );
-})}
+            {pastries.slice(0, 4).map((p) => (
+              <PastryCard
+                key={p._id}
+                pastry={p}
+                onView={(pastry) =>
+                  navigate(`/baker/${pastry._id}`)
+                }
+              />
+            ))}
           </div>
         )}
 
-        {/* VIEW MORE */}
         <div style={{ textAlign: "center", marginTop: 30 }}>
           <Button variant="primary">Voir plus</Button>
         </div>
@@ -139,7 +74,6 @@ export default function PastriesSection({ onViewPastry }) {
     </section>
   );
 }
-
 // ─── Styles ─────────────────────────────
 const styles = {
   section: {

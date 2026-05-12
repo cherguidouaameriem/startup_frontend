@@ -17,15 +17,17 @@ export default function HeroSection({ onBrowseShops }) {
         <div className="hero-content">
           
 
-          <h1 className="hero-title">
-            Créez votre <span className="text-accent">gâteau</span> <br />
-            de <span className="text-accent">rêve</span>
-          </h1>
-
-          <p className="hero-description">
-            Imaginez le gâteau parfait. Nous le réalisons avec des ingrédients 
-            frais et une touche d'artisanat local. Livré où vous voulez.
-          </p>
+     <h1 className="hero-title">
+  Créez, <span className="text-accent">visualisez en 3D</span>,<br />
+  et<span className="text-accent"> savourez</span>
+</h1>
+        <p className="hero-description">
+  La première plateforme qui connecte vos designs uniques aux talents des pâtissiers de votre wilaya.
+  <br />
+  <span style={{ display: "inline-block", marginTop: "10px", fontWeight: 600, color: "#6B7280" }}>
+    Votre imagination est la seule limite.
+  </span>
+</p>
 
           <div className="hero-actions">
             <Button size="lg" variant="primary" onClick={() => navigate("/delivery")}>
