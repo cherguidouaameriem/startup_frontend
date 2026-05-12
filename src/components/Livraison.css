@@ -58,8 +58,8 @@
 }
 
 .step-circle.active {
-  border: 2px solid #D4A373;
-  color: #D4A373;
+  border: 2px solid #C8194A;
+  color: #C8194A;
 }
 
 .step-label {
@@ -71,7 +71,7 @@
 }
 
 .step-label.active {
-  color: #D4A373;
+  color: #C8194A;
 }
 
 /* --- Header Section --- */
@@ -85,7 +85,7 @@
   padding: 15px;
   background-color: #FFF9F2;
   border-radius: 50%;
-  color: #D4A373;
+  color: #C8194A;
   margin-bottom: 15px;
 }
 
@@ -119,11 +119,11 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  border: 1.5px solid #D4A373;
+  border: 1.5px solid #C8194A;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #D4A373;
+  color: #C8194A;
   font-size: 12px;
   font-weight: bold;
   flex-shrink: 0;
@@ -164,7 +164,7 @@
 }
 
 .wilaya-card.active:hover {
-  border-color: #D4A373;
+  border-color: #C8194A;
   box-shadow: 0 6px 15px rgba(212, 163, 115, 0.1);
 }
 
@@ -186,7 +186,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #D4A373;
+  color: #C8194A;
 }
 
 .disabled .wilaya-name, .disabled .wilaya-status {

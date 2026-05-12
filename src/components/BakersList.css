@@ -24,7 +24,7 @@
   background-color: #FFF9F2;
   border: 1px solid #FBE9D1;
   border-radius: 20px;
-  color: #D4A373;
+  color: #C8194A ;
   font-size: 12px;
   margin-bottom: 30px;
 }
@@ -89,7 +89,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #f39c12;
+  color: #C8194A ;
   font-weight: bold;
   font-size: 14px;
 }
@@ -103,7 +103,7 @@
 
 .delivery-status {
   font-size: 11px;
-  color: #27ae60;
+  color: #36af68;
   display: flex;
   align-items: center;
   gap: 5px;

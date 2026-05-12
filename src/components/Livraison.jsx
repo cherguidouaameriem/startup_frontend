@@ -18,24 +18,7 @@ const SelectWilayaPage = () => {
 
       <main className="main-content">
 
-        <div className="stepper-wrapper">
-          <div className="stepper-line"></div>
-
-          <div className="step-item">
-            <div className="step-circle active"><MapPin size={18} /></div>
-            <span className="step-label active">Wilaya</span>
-          </div>
-
-          <div className="step-item">
-            <div className="step-circle"><Store size={18} /></div>
-            <span className="step-label">Pâtissier</span>
-          </div>
-
-          <div className="step-item">
-            <div className="step-circle"><Palette size={18} /></div>
-            <span className="step-label">Design</span>
-          </div>
-        </div>
+      
 
         <div className="header-section">
           <div className="icon-badge"><MapPin size={24} /></div>

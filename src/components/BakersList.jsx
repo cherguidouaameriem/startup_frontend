@@ -70,7 +70,7 @@ const [selectedBaker, setSelectedBaker] = useState(null);
 
         {bakers.length === 0 && (
           <p style={{ textAlign: 'center' }}>
-            Aucun pâtissier disponible pour le moment 😢
+            Aucun pâtissier disponible pour le moment
           </p>
         )}
 
@@ -106,7 +106,7 @@ const [selectedBaker, setSelectedBaker] = useState(null);
 
                   {/* ⭐ fake rating (temporaire) */}
                   <div className="rating-badge">
-                    <Star size={14} fill="#f39c12" stroke="none" /> 4.5
+                    <Star size={14} fill="#C8194A " stroke="none" /> 4.5
                   </div>
                 </div>
 
