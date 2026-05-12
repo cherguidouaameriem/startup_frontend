@@ -3,9 +3,7 @@ import Button from "../components/button";
 import { useNavigate } from "react-router-dom";
 
 // ─────────────────────────────────────────────
-// BakeryPartnerSection — "Faites grandir votre boulangerie avec HalwaTech"
-// Props:
-//   onBePartner: fn
+// BakeryPartnerSection
 // ─────────────────────────────────────────────
 
 const PERKS = [
@@ -26,63 +24,23 @@ const PERKS = [
   },
 ];
 
-// Illustration simple de boutique en SVG
-function ShopIllustration() {
-  return (
-    <div style={illustrationStyles.wrapper}>
-      <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-        <rect x="20" y="50" width="80" height="55" rx="6" fill="#fff0f4" stroke="#e8c0ce" strokeWidth="2" />
-        <rect x="14" y="40" width="92" height="18" rx="5" fill="#fce4ec" stroke="#e8a0b8" strokeWidth="2" />
-        <rect x="48" y="76" width="24" height="29" rx="4" fill="#f9d0df" stroke="#e8a0b8" strokeWidth="1.5" />
-        <circle cx="69" cy="91" r="2.5" fill="#C8194A" />
-        <rect x="24" y="60" width="22" height="18" rx="3" fill="#fce4ec" stroke="#e8a0b8" strokeWidth="1.5" />
-        <rect x="74" y="60" width="22" height="18" rx="3" fill="#fce4ec" stroke="#e8a0b8" strokeWidth="1.5" />
-        <line x1="35" y1="60" x2="35" y2="78" stroke="#e8a0b8" strokeWidth="1" />
-        <line x1="24" y1="69" x2="46" y2="69" stroke="#e8a0b8" strokeWidth="1" />
-        <line x1="85" y1="60" x2="85" y2="78" stroke="#e8a0b8" strokeWidth="1" />
-        <line x1="74" y1="69" x2="96" y2="69" stroke="#e8a0b8" strokeWidth="1" />
-        <path d="M20 44 L28 58" stroke="#e8a0b8" strokeWidth="1.5" opacity="0.5" />
-        <path d="M38 40 L46 58" stroke="#e8a0b8" strokeWidth="1.5" opacity="0.5" />
-        <path d="M56 40 L64 58" stroke="#e8a0b8" strokeWidth="1.5" opacity="0.5" />
-        <path d="M74 40 L82 58" stroke="#e8a0b8" strokeWidth="1.5" opacity="0.5" />
-        <path d="M92 44 L100 58" stroke="#e8a0b8" strokeWidth="1.5" opacity="0.5" />
-        <rect x="72" y="20" width="10" height="22" rx="2" fill="#fce4ec" stroke="#e8a0b8" strokeWidth="1.5" />
-        <circle cx="77" cy="16" r="4" fill="none" stroke="#e8a0b8" strokeWidth="1.5" opacity="0.5" />
-        <circle cx="81" cy="10" r="3" fill="none" stroke="#e8a0b8" strokeWidth="1.5" opacity="0.4" />
-      </svg>
-    </div>
-  );
-}
-
-const illustrationStyles = {
-  wrapper: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "linear-gradient(135deg, #fff5f8 0%, #fce4ec 100%)",
-    borderRadius: 16,
-    minHeight: 200,
-  },
-};
-
 export default function BakeryPartnerSection({ onBePartner }) {
   const navigate = useNavigate();
 
   const handleBePartner = () => {
-    navigate("/partner-form"); // Navigue vers PartnerForm.jsx
+    navigate("/partner-form");
   };
 
   return (
-    <section style={styles.section}>
+    <section style={styles.section} className="partner-section">
       <div style={styles.inner}>
-        <div style={styles.card}>
-          {/* Contenu gauche */}
-          <div style={styles.content}>
+        <div style={styles.card} className="partner-card">
+          
+          {/* LEFT CONTENT */}
+          <div style={styles.content} className="partner-content">
             <span style={styles.badge}>
               <Icon name="store" size={14} color="#C8194A" />
-           Pour les pâtissiers
+              Pour les pâtissiers
             </span>
 
             <h2 style={styles.title}>
@@ -91,36 +49,168 @@ export default function BakeryPartnerSection({ onBePartner }) {
             </h2>
 
             <p style={styles.description}>
-             Rejoignez notre plateforme et trouvez plus de clients.
-Présentez vos créations, y compris les gâteaux 3D, et gérez vos commandes facilement.
+              Rejoignez notre plateforme et trouvez plus de clients.
+              Présentez vos créations, y compris les gâteaux 3D,
+              et gérez vos commandes facilement.
             </p>
 
-            {/* Avantages */}
-            <div style={styles.perks}>
+            {/* PERKS */}
+            <div style={styles.perks} className="partner-perks">
               {PERKS.map((perk) => (
                 <div key={perk.title} style={styles.perk}>
                   <span style={styles.perkIcon}>
-                    <Icon name={perk.icon} size={16} color="#C8194A" />
+                    <Icon
+                      name={perk.icon}
+                      size={16}
+                      color="#C8194A"
+                    />
                   </span>
+
                   <div>
-                    <div style={styles.perkTitle}>{perk.title}</div>
-                    <div style={styles.perkDesc}>{perk.desc}</div>
+                    <div style={styles.perkTitle}>
+                      {perk.title}
+                    </div>
+
+                    <div style={styles.perkDesc}>
+                      {perk.desc}
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            <Button variant="primary" size="md" onClick={handleBePartner}>
-              Devenir partenaire
-            </Button>
+            <div className="partner-btn">
+              <Button
+                variant="primary"
+                size="md"
+                onClick={handleBePartner}
+              >
+                Devenir partenaire
+              </Button>
+            </div>
           </div>
 
-          {/* Illustration droite */}
-          <div style={styles.illustrationWrapper}>
-            <ShopIllustration />
+          {/* IMAGE RIGHT */}
+          <div
+            style={styles.imageWrapper}
+            className="partner-image-wrapper"
+          >
+            <img
+              src="/images/cakes/bakerybake.jpg"
+              alt="Bakery"
+              style={styles.image}
+              className="partner-image"
+            />
+
+            <div style={styles.overlay} />
+
+            <div style={styles.floatingCard}>
+              <div style={styles.floatingBadge}>
+                <Icon name="store" size={14} color="#fff" />
+                +100 pâtissiers
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* RESPONSIVE CSS */}
+      <style>{`
+        * {
+          box-sizing: border-box;
+        }
+
+        .partner-card {
+          transition: all 0.3s ease;
+        }
+
+        .partner-image {
+          transition: transform 0.5s ease;
+        }
+
+        .partner-image-wrapper:hover .partner-image {
+          transform: scale(1.05);
+        }
+
+        /* TABLET */
+        @media (max-width: 1024px) {
+          .partner-card {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+            padding: 36px 28px !important;
+          }
+
+          .partner-image-wrapper {
+            height: 340px !important;
+            order: -1;
+          }
+
+          .partner-content {
+            align-items: center;
+            text-align: center;
+          }
+
+          .partner-perks {
+            justify-content: center;
+          }
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+          .partner-section {
+            padding: 48px 14px !important;
+          }
+
+          .partner-card {
+            padding: 24px 18px !important;
+            border-radius: 20px !important;
+            gap: 24px !important;
+          }
+
+          .partner-image-wrapper {
+            height: 260px !important;
+            border-radius: 16px !important;
+          }
+
+          .partner-content {
+            gap: 16px !important;
+          }
+
+          .partner-perks {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 16px !important;
+            width: 100%;
+          }
+
+          .partner-btn button {
+            width: 100% !important;
+          }
+        }
+
+        /* SMALL MOBILE */
+        @media (max-width: 480px) {
+          .partner-section {
+            padding: 40px 10px !important;
+          }
+
+          .partner-card {
+            padding: 20px 14px !important;
+          }
+
+          .partner-image-wrapper {
+            height: 220px !important;
+          }
+
+          .partner-content h2 {
+            font-size: 28px !important;
+          }
+
+          .partner-content p {
+            font-size: 14px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
@@ -128,32 +218,36 @@ Présentez vos créations, y compris les gâteaux 3D, et gérez vos commandes fa
 const styles = {
   section: {
     background: "#fdf6f8",
-    padding: "60px 24px",
+    padding: "70px 24px",
     display: "flex",
     justifyContent: "center",
+    width: "100%",
+    overflow: "hidden",
   },
 
   inner: {
-    maxWidth: 1100,
+    maxWidth: 1200,
     width: "100%",
   },
 
   card: {
     background: "#fff",
-    borderRadius: 24,
-    padding: "48px 40px",
+    borderRadius: 28,
+    padding: "48px 42px",
     border: "1px solid #f0e0e8",
-    boxShadow: "0 4px 24px rgba(200,25,74,0.07)",
+    boxShadow: "0 10px 40px rgba(200,25,74,0.08)",
     display: "grid",
-    gridTemplateColumns: "1fr minmax(280px, 340px)",
+    gridTemplateColumns: "1fr minmax(320px, 460px)",
     gap: 48,
     alignItems: "center",
+    overflow: "hidden",
   },
 
   content: {
     display: "flex",
     flexDirection: "column",
     gap: 20,
+    zIndex: 2,
   },
 
   badge: {
@@ -165,19 +259,19 @@ const styles = {
     fontFamily: "'DM Sans', sans-serif",
     fontSize: 12,
     fontWeight: 700,
-    padding: "5px 14px",
-    borderRadius: 100,
+    padding: "6px 14px",
+    borderRadius: 999,
     border: "1px solid #fce4ec",
     width: "fit-content",
   },
 
   title: {
     fontFamily: "'Playfair Display', Georgia, serif",
-    fontSize: "clamp(24px, 3vw, 34px)",
+    fontSize: "clamp(30px, 4vw, 44px)",
     fontWeight: 800,
     color: "#1a1a2e",
     margin: 0,
-    lineHeight: 1.2,
+    lineHeight: 1.15,
   },
 
   accent: {
@@ -186,29 +280,31 @@ const styles = {
 
   description: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: 15,
+    fontSize: 16,
     color: "#666",
-    lineHeight: 1.7,
+    lineHeight: 1.8,
     margin: 0,
-    maxWidth: 440,
+    maxWidth: 520,
   },
 
   perks: {
     display: "flex",
-    gap: 28,
+    gap: 24,
     flexWrap: "wrap",
+    marginTop: 6,
   },
 
   perk: {
     display: "flex",
     alignItems: "flex-start",
     gap: 10,
+    minWidth: 180,
   },
 
   perkIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
+    width: 36,
+    height: 36,
+    borderRadius: 10,
     background: "#fff0f4",
     display: "flex",
     alignItems: "center",
@@ -219,7 +315,7 @@ const styles = {
 
   perkTitle: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 700,
     color: "#1a1a2e",
     lineHeight: 1.3,
@@ -227,15 +323,54 @@ const styles = {
 
   perkDesc: {
     fontFamily: "'DM Sans', sans-serif",
-    fontSize: 12,
-    color: "#999",
-    lineHeight: 1.4,
+    fontSize: 13,
+    color: "#888",
+    lineHeight: 1.5,
     marginTop: 2,
   },
 
-  illustrationWrapper: {
-    borderRadius: 16,
+  imageWrapper: {
+    position: "relative",
+    borderRadius: 22,
     overflow: "hidden",
-    minHeight: 220,
+    minHeight: 420,
+    height: "100%",
+    width: "100%",
+  },
+
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+  },
+
+  overlay: {
+    position: "absolute",
+    inset: 0,
+    background:
+      "linear-gradient(to top, rgba(0,0,0,0.28), rgba(0,0,0,0.08))",
+  },
+
+  floatingCard: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    zIndex: 3,
+  },
+
+  floatingBadge: {
+    background: "rgba(200,25,74,0.92)",
+    color: "#fff",
+    padding: "10px 16px",
+    borderRadius: 999,
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: 13,
+    fontWeight: 700,
+    backdropFilter: "blur(8px)",
+    boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
   },
 };
