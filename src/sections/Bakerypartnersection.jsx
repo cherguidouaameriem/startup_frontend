@@ -1,4 +1,10 @@
-import Icon from "../components/Icon";
+import {
+  Store,
+  TrendingUp,
+  CheckCircle2,
+  ArrowRight,
+} from "lucide-react";
+
 import Button from "../components/button";
 import { useNavigate } from "react-router-dom";
 
@@ -8,23 +14,23 @@ import { useNavigate } from "react-router-dom";
 
 const PERKS = [
   {
-    icon: "trending",
+    icon: TrendingUp,
     title: "Plus de clients",
     desc: "Faites découvrir vos gâteaux à plus de personnes",
   },
   {
-    icon: "check",
+    icon: CheckCircle2,
     title: "Gestion simple",
     desc: "Gérez vos commandes facilement",
   },
   {
-    icon: "store",
+    icon: Store,
     title: "Inscription gratuite",
     desc: "Commencez sans frais",
   },
 ];
 
-export default function BakeryPartnerSection({ onBePartner }) {
+export default function BakeryPartnerSection() {
   const navigate = useNavigate();
 
   const handleBePartner = () => {
@@ -35,11 +41,12 @@ export default function BakeryPartnerSection({ onBePartner }) {
     <section style={styles.section} className="partner-section">
       <div style={styles.inner}>
         <div style={styles.card} className="partner-card">
-          
+
           {/* LEFT CONTENT */}
           <div style={styles.content} className="partner-content">
+            
             <span style={styles.badge}>
-              <Icon name="store" size={14} color="#C8194A" />
+              <Store size={14} color="#C8194A" />
               Pour les pâtissiers
             </span>
 
@@ -56,27 +63,27 @@ export default function BakeryPartnerSection({ onBePartner }) {
 
             {/* PERKS */}
             <div style={styles.perks} className="partner-perks">
-              {PERKS.map((perk) => (
-                <div key={perk.title} style={styles.perk}>
-                  <span style={styles.perkIcon}>
-                    <Icon
-                      name={perk.icon}
-                      size={16}
-                      color="#C8194A"
-                    />
-                  </span>
+              {PERKS.map((perk) => {
+                const IconComp = perk.icon;
 
-                  <div>
-                    <div style={styles.perkTitle}>
-                      {perk.title}
-                    </div>
+                return (
+                  <div key={perk.title} style={styles.perk}>
+                    <span style={styles.perkIcon}>
+                      <IconComp size={18} color="#C8194A" />
+                    </span>
 
-                    <div style={styles.perkDesc}>
-                      {perk.desc}
+                    <div>
+                      <div style={styles.perkTitle}>
+                        {perk.title}
+                      </div>
+
+                      <div style={styles.perkDesc}>
+                        {perk.desc}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="partner-btn">
@@ -85,7 +92,10 @@ export default function BakeryPartnerSection({ onBePartner }) {
                 size="md"
                 onClick={handleBePartner}
               >
-                Devenir partenaire
+                <span style={styles.btnContent}>
+                  Devenir partenaire
+                  <ArrowRight size={18} />
+                </span>
               </Button>
             </div>
           </div>
@@ -104,9 +114,10 @@ export default function BakeryPartnerSection({ onBePartner }) {
 
             <div style={styles.overlay} />
 
+            {/* FLOATING BADGE */}
             <div style={styles.floatingCard}>
               <div style={styles.floatingBadge}>
-                <Icon name="store" size={14} color="#fff" />
+                <Store size={14} color="#fff" />
                 +100 pâtissiers
               </div>
             </div>
@@ -125,11 +136,11 @@ export default function BakeryPartnerSection({ onBePartner }) {
         }
 
         .partner-image {
-          transition: transform 0.5s ease;
+          transition: transform 0.6s ease;
         }
 
         .partner-image-wrapper:hover .partner-image {
-          transform: scale(1.05);
+          transform: scale(1.06);
         }
 
         /* TABLET */
@@ -302,9 +313,9 @@ const styles = {
   },
 
   perkIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
+    width: 38,
+    height: 38,
+    borderRadius: 12,
     background: "#fff0f4",
     display: "flex",
     alignItems: "center",
@@ -329,6 +340,12 @@ const styles = {
     marginTop: 2,
   },
 
+  btnContent: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+  },
+
   imageWrapper: {
     position: "relative",
     borderRadius: 22,
@@ -349,7 +366,7 @@ const styles = {
     position: "absolute",
     inset: 0,
     background:
-      "linear-gradient(to top, rgba(0,0,0,0.28), rgba(0,0,0,0.08))",
+      "linear-gradient(to top, rgba(0,0,0,0.32), rgba(0,0,0,0.06))",
   },
 
   floatingCard: {
