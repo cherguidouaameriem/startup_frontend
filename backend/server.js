@@ -7,14 +7,28 @@ require("dotenv").config();
 const app = express();
 
 // 🔥 MIDDLEWARE
-app.use(cors({
-  origin: [
-  "https://startup-frontend-cherguidouaameriems-projects.vercel.app",
-  "https://startup-frontend-8y2x-cherguidouaameriems-projects.vercel.app",
-  "http://localhost:5173"
-],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow mobile / postman
+      if (!origin) return callback(null, true);
+
+      // allow localhost
+      if (origin.includes("localhost")) {
+        return callback(null, true);
+      }
+
+      // allow ALL Vercel deployments
+      if (origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
+  app.options("*", cors());
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // 🔥 ROUTES
