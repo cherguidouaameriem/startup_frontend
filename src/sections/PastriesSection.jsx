@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Icon from "../components/Icon";
 import Button from "../components/button";
 import { API } from "../api";
+import { useNavigate } from "react-router-dom";
 const CATEGORIES = ["Tous", "Oran", "Alger", "Autre"];
 
 // ─── STAR ─────────────────────────────
