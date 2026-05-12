@@ -80,13 +80,23 @@ export default function Navbar({ links = defaultLinks }) {
         {/* RIGHT SECTION */}
         <div style={styles.rightSection}>
           {!isMobile && (
-            <button 
-              style={styles.portalBtn} 
-              onClick={() => navigate("/connexion_patis")}
-            >
-              <ChefHat size={18} />
-              <span>Portail Pâtissier</span>
-            </button>
+           <div style={{ display: "flex", gap: 10 }}>
+  <button 
+    style={styles.portalBtn} 
+    onClick={() => navigate("/connexion_patis")}
+  >
+    <ChefHat size={18} />
+    <span>Portail Pâtissier</span>
+  </button>
+
+  {/* TEMP ADMIN ACCESS */}
+  <button 
+    style={styles.adminBtn} 
+    onClick={() => navigate("/admin")}
+  >
+    Admin
+  </button>
+</div>
           )}
 
           {/* MOBILE TOGGLE */}

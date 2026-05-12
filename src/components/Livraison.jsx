@@ -47,7 +47,7 @@ const SelectWilayaPage = () => {
             >
               <div>
                 <h3 className="wilaya-name">Oran</h3>
-                <p className="wilaya-status">5 Pâtissiers</p>
+                <p className="wilaya-status">2 Pâtissiers</p>
               </div>
               <ChevronRight size={18} color="#D4A373" />
             </div>
