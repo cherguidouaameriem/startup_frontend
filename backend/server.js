@@ -9,8 +9,10 @@ const app = express();
 // 🔥 MIDDLEWARE
 app.use(cors({
   origin: [
-    "startup-frontend-8y2x-cherguidouaameriems-projects.vercel.app"
-  ],
+  "https://startup-frontend-cherguidouaameriems-projects.vercel.app",
+  "https://startup-frontend-8y2x-5q51d7uzv-cherguidouaameriems-projects.vercel.app",
+  "http://localhost:5173"
+],
   credentials: true
 }));
 app.use(express.json());
