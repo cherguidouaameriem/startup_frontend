@@ -123,7 +123,23 @@ router.put("/approve/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.get("/:id", async (req, res) => {
+  try {
+    const partner = await Partner.findById(req.params.id).select("-password");
 
+    if (!partner) {
+      return res.status(404).json({
+        message: "Partner not found",
+      });
+    }
+
+    res.json(partner);
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+});
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
     // 🔒 1. Ensure user can only edit their own profile
@@ -182,4 +198,5 @@ router.put("/:id", authMiddleware, async (req, res) => {
     });
   }
 });
+
 module.exports = router;
