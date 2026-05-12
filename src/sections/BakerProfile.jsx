@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "..\components\button.jsx";
+import Button from "../components/button.jsx";
 export default function BakerProfile() {
   const { bakerId } = useParams();
   const navigate = useNavigate();

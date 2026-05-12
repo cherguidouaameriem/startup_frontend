@@ -14,6 +14,7 @@ import DashboardPage from "./components/DashboardPage";
 import DeliveryDetails from "./components/Livraison";
 import AppLayout from "./components/AppLayout";
 import BakerSelectionPage from "./components/BakersList";
+import BakerProfile from "./components/BakerProfile";
 import "./styles/global.css";
 import "./styles/auth.css";
 import "./styles/dashboard.css";
@@ -37,6 +38,7 @@ function App() {
             <Route path="/bakers" element={<BakerSelectionPage/>}/>
             <Route path="/admin" element={<AdminDashboard/>}/>
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/baker/:bakerId" element={<BakerProfile />} />
             {/* Dashboard Layout */}
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
