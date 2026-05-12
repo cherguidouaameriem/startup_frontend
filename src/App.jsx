@@ -14,7 +14,7 @@ import DashboardPage from "./components/DashboardPage";
 import DeliveryDetails from "./components/Livraison";
 import AppLayout from "./components/AppLayout";
 import BakerSelectionPage from "./components/BakersList";
-import BakerProfile from "./components/BakerProfile";
+import BakerProfile from "./sections/BakerProfile";
 import "./styles/global.css";
 import "./styles/auth.css";
 import "./styles/dashboard.css";
