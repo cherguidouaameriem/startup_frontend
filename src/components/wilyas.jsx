@@ -1,198 +1,265 @@
-import React, { useState } from 'react';
-import { MapPin, Star, Clock, ChevronRight } from 'lucide-react';
-import Navbar from './Navbar';
-import Footer from './Footer';
-const cities = [
-  { id: 1, name: 'Oran', count: 5, status: 'shops', available: true },
-  { id: 2, name: 'Algiers', count: null, status: 'Coming soon', available: false },
-  { id: 3, name: 'Constantine', count: null, status: 'Coming soon', available: false },
-  { id: 4, name: 'Annaba', count: null, status: 'Coming soon', available: false },
-];
+import React, { useEffect, useState } from "react";
+import { MapPin, Star, Clock, ChevronRight } from "lucide-react";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import { API } from "../api";
 
-const shops = [
-  { id: 1, name: 'Pâtisserie El Bahia', rating: 4.9, location: 'Centre-ville', specialty: 'Traditional & modern cakes', delivery: true },
-  { id: 2, name: 'Sweet Oran Bakery', rating: 4.7, location: 'Hai Es-Seddikia', specialty: 'Wedding & celebration cakes', delivery: true },
-  { id: 3, name: 'La Rose des Sables', rating: 4.8, location: 'Oran El Jadida', specialty: 'French-style pâtisserie', delivery: false },
-  { id: 4, name: 'Délices du Fellaoucène', rating: 4.6, location: 'Bir El Djir', specialty: 'Custom designer cakes', delivery: true },
-];
+const CITIES = ["Oran", "Alger", "Constantine", "Annaba"];
 
-const Pastryshops = () => {
-  const [selectedCity, setSelectedCity] = useState(null);
+export default function Pastryshops() {
+  const [selectedCity, setSelectedCity] = useState("Oran");
+  const [shops, setShops] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleCityClick = (city) => {
-    if (city.available) {
-      setSelectedCity(city.name);
-    } else {
-      alert(`${city.name} is coming soon!`);
-    }
-  };
+  // 🔥 FETCH REAL DATA
+  useEffect(() => {
+    const fetchShops = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `${API}/api/partners?wilaya=${selectedCity}`
+        );
+        const data = await res.json();
+        setShops(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchShops();
+  }, [selectedCity]);
 
   return (
     <>
       <Navbar />
 
       <div style={styles.container}>
-        {/* SECTION : SELECTION DE LA VILLE */}
+        {/* HEADER */}
         <div style={styles.header}>
           <MapPin style={styles.iconMain} />
-          <h1 style={styles.title}>Select Your City</h1>
-          <p style={styles.subtitle}>Find the best pastry shops near you</p>
+          <h1 style={styles.title}>Nos Pâtisseries</h1>
+          <p style={styles.subtitle}>
+            Découvrez les meilleures pâtisseries près de chez vous
+          </p>
         </div>
 
+        {/* CITIES */}
         <div style={styles.grid}>
-          {cities.map((city) => (
+          {CITIES.map((city) => (
             <button
-              key={city.id}
-              onClick={() => handleCityClick(city)}
+              key={city}
+              onClick={() => setSelectedCity(city)}
               style={{
                 ...styles.card,
-                cursor: city.available ? "pointer" : "not-allowed",
-                opacity: city.available ? 1 : 0.7,
                 borderColor:
-                  selectedCity === city.name ? "#dc3545" : "#eee",
-                borderWidth:
-                  selectedCity === city.name ? "2px" : "1px",
+                  selectedCity === city ? "#C8194A" : "#e5e5e5",
+                borderWidth: selectedCity === city ? "2px" : "1px",
               }}
             >
-              <div style={styles.cardContent}>
-                <h2 style={styles.cityName}>{city.name}</h2>
-                <p style={styles.cityStatus}>
-                  {city.count !== null
-                    ? `${city.count} ${city.status}`
-                    : city.status}
-                </p>
-              </div>
+              <h2 style={styles.cityName}>{city}</h2>
+              <p style={styles.cityStatus}>Voir les pâtisseries</p>
             </button>
           ))}
         </div>
 
-        {selectedCity && (
-          <div style={styles.shopSection}>
-            <hr style={styles.divider} />
+        {/* SHOPS */}
+        <div style={styles.shopSection}>
+          <h2 style={styles.shopTitle}>
+            Pâtisseries à {selectedCity}
+          </h2>
 
-            <div style={styles.shopHeader}>
-              <h2 style={styles.shopTitle}>
-                Pastry Shops in {selectedCity}
-              </h2>
-            </div>
-
+          {loading ? (
+            <p>Chargement...</p>
+          ) : shops.length === 0 ? (
+            <p>Aucune pâtisserie disponible.</p>
+          ) : (
             <div style={styles.shopList}>
               {shops.map((shop) => (
-                <div key={shop.id} style={styles.shopCard}>
-                  <div style={styles.shopInfo}>
+                <div key={shop._id} style={styles.shopCard}>
+                  <div style={{ flex: 1 }}>
                     <div style={styles.shopNameRow}>
-                      <h3 style={styles.shopNameText}>{shop.name}</h3>
+                      <h3 style={styles.shopNameText}>
+                        {shop.shopName}
+                      </h3>
+
                       <div style={styles.ratingBadge}>
                         <Star size={14} fill="#f59e0b" />
                         <span style={styles.ratingText}>
-                          {shop.rating}
+                          {shop.rating || 4.5}
                         </span>
                       </div>
                     </div>
 
                     <p style={styles.shopSubText}>
-                      {shop.location} • {shop.specialty}
+                      {shop.shopAddress} • {shop.description}
                     </p>
 
-                    {shop.delivery && (
-                      <div style={styles.deliveryInfo}>
-                        <Clock size={14} color="#dc3545" />
-                        <span style={styles.deliveryText}>
-                          Delivery available
-                        </span>
-                      </div>
-                    )}
+                    <div style={styles.deliveryInfo}>
+                      <Clock size={14} color="#C8194A" />
+                      <span style={styles.deliveryText}>
+                        Livraison disponible
+                      </span>
+                    </div>
                   </div>
 
                   <button style={styles.orderButton}>
-                    Order <ChevronRight size={18} />
+                    Voir <ChevronRight size={18} />
                   </button>
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <Footer />
     </>
   );
-}; // ✅ ICI tu fermes le composant
+}
+
+/* ───────── STYLES RESPONSIVE ───────── */
 const styles = {
   container: {
-    fontFamily: 'system-ui, -apple-system, sans-serif',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#fdfdfd',
-    padding: '40px 20px',
+    fontFamily: "system-ui, sans-serif",
+    padding: "40px 20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    background: "#fafafa",
+    minHeight: "100vh",
   },
-  header: { textAlign: 'center', marginBottom: '40px' },
-  iconMain: { width: '40px', height: '40px', color: '#dc3545', marginBottom: '15px' },
-  title: { fontSize: '2.2rem', fontWeight: '800', margin: '0 0 8px 0', color: '#1a1a1a' },
-  subtitle: { fontSize: '1.1rem', color: '#666' },
- grid: {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-  gap: "16px",
-  maxWidth: "800px",
-  width: "100%",
-  marginBottom: "40px",
-},
 
-card: {
-  backgroundColor: "#fff",
-  borderRadius: "10px", // moins arrondi = plus moderne
-  padding: "18px 16px", // plus compact
-  border: "1px solid #e5e5e5",
-  textAlign: "left",
-  transition: "all 0.2s ease",
-},
-  cityName: { fontSize: '1.3rem', fontWeight: 'bold', margin: '0 0 5px 0', color: '#222' },
-  cityStatus: { fontSize: '0.95rem', color: '#888' },
-  
-  divider: { width: '100%', border: 'none', borderTop: '1px solid #eee', margin: '40px 0' },
-  shopSection: { width: '100%', maxWidth: '800px', animation: 'fadeIn 0.5s ease-in' },
-  shopHeader: { marginBottom: '30px' },
-  shopTitle: { fontSize: '1.8rem', fontWeight: '700', color: '#1a1a1a' },
-  shopList: { display: 'flex', flexDirection: 'column', gap: '15px' },
+  header: {
+    textAlign: "center",
+    marginBottom: 30,
+  },
+
+  iconMain: {
+    color: "#C8194A",
+    width: 40,
+    height: 40,
+    marginBottom: 10,
+  },
+
+  title: {
+    fontSize: "2rem",
+    fontWeight: 800,
+  },
+
+  subtitle: {
+    color: "#666",
+    fontSize: "1rem",
+  },
+
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+    gap: 12,
+    width: "100%",
+    maxWidth: 700,
+    marginBottom: 30,
+  },
+
+  card: {
+    background: "#fff",
+    padding: 16,
+    borderRadius: 12,
+    border: "1px solid #e5e5e5",
+    cursor: "pointer",
+    textAlign: "left",
+    transition: "0.2s",
+  },
+
+  cityName: {
+    fontSize: 16,
+    fontWeight: 700,
+    margin: 0,
+  },
+
+  cityStatus: {
+    fontSize: 12,
+    color: "#777",
+  },
+
+  shopSection: {
+    width: "100%",
+    maxWidth: 800,
+  },
+
+  shopTitle: {
+    fontSize: 20,
+    fontWeight: 700,
+    marginBottom: 15,
+  },
+
+  shopList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+  },
+
   shopCard: {
-    backgroundColor: '#fff',
-    borderRadius: '12px',
-    padding: '20px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-    border: '1px solid #f0f0f0',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    background: "#fff",
+    padding: 16,
+    borderRadius: 12,
+    border: "1px solid #eee",
   },
-  shopNameRow: { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' },
-  shopNameText: { margin: 0, fontSize: '1.15rem', color: '#111' },
-  ratingBadge: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '4px',
-    backgroundColor: '#fff4f4',
-    padding: '2px 8px',
-    borderRadius: '6px',
-  },
-  ratingText: { fontSize: '0.85rem', fontWeight: 'bold', color: '#333' },
-  shopSubText: { margin: 0, color: '#666', fontSize: '0.95rem' },
-  deliveryInfo: { display: 'flex', alignItems: 'center', gap: '6px', marginTop: '8px' },
-  deliveryText: { color: '#dc3545', fontSize: '0.85rem', fontWeight: '500' },
-  orderButton: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '5px',
-    padding: '10px 20px',
-    borderRadius: '10px',
-    border: '1px solid #eee',
-    backgroundColor: '#fff',
-    cursor: 'pointer',
-    color: '#444',
-    fontWeight: '500',
-  }
-};
 
-export default Pastryshops;
+  shopNameRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+  },
+
+  shopNameText: {
+    margin: 0,
+    fontSize: 16,
+  },
+
+  ratingBadge: {
+    display: "flex",
+    alignItems: "center",
+    gap: 4,
+    background: "#fff4f4",
+    padding: "2px 8px",
+    borderRadius: 8,
+  },
+
+  ratingText: {
+    fontSize: 12,
+    fontWeight: 700,
+  },
+
+  shopSubText: {
+    fontSize: 13,
+    color: "#666",
+  },
+
+  deliveryInfo: {
+    display: "flex",
+    alignItems: "center",
+    gap: 5,
+    marginTop: 6,
+  },
+
+  deliveryText: {
+    fontSize: 12,
+    color: "#C8194A",
+  },
+
+  orderButton: {
+    padding: "8px 14px",
+    border: "1px solid #eee",
+    borderRadius: 10,
+    background: "#fff",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: 4,
+  },
+};
