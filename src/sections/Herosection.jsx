@@ -40,8 +40,7 @@ export default function HeroSection({ onBrowseShops }) {
   size="lg"
   variant="outline"
   className="btn-outline-custom"
-  onClick={() => navigate("/pastry_shops")}
->
+onClick={() => navigate("/pastry-shops")}>
   Explorer les pâtisseries
 </Button>
           </div>

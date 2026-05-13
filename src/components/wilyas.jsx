@@ -93,7 +93,7 @@ export default function Pastryshops() {
                     </div>
 
                     <p style={styles.shopSubText}>
-                      {shop.shopAddress} • {shop.description}
+                      {shop.shopAddress} 
                     </p>
 
                     <div style={styles.deliveryInfo}>
@@ -104,9 +104,6 @@ export default function Pastryshops() {
                     </div>
                   </div>
 
-                  <button style={styles.orderButton}>
-                    Voir <ChevronRight size={18} />
-                  </button>
                 </div>
               ))}
             </div>
@@ -121,14 +118,22 @@ export default function Pastryshops() {
 
 /* ───────── STYLES RESPONSIVE ───────── */
 const styles = {
-  container: {
+container: {
     fontFamily: "system-ui, sans-serif",
+    
+    // 1. Add top/bottom margin to separate from Nav and Footer
+    marginTop: "20px", 
+    marginBottom: "40px", 
+    
     padding: "40px 20px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     background: "#fafafa",
-    minHeight: "100vh",
+    
+    // 2. This ensures your content pushes the footer down 
+    // even if there are no shops found
+    minHeight: "80vh", 
   },
 
   header: {
