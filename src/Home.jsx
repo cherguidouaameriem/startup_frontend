@@ -53,6 +53,7 @@ export default function Home() {
           onBrowseShops={handleBrowseShops}
         />
 
+        <Howitworkssection />
 
         <div id="pastries">
           <PastriesSection
@@ -62,7 +63,6 @@ export default function Home() {
           />
         </div>
 
-        <FeaturesSection />
 
         <BakeryPartnerSection
           onBePartner={handleBePartner}
