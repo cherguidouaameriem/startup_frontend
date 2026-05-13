@@ -1,192 +1,85 @@
 import { useState } from "react";
-import { Cake, Palette, ShoppingCart } from "lucide-react";
+import { Cake, Palette, ShoppingCart, Truck } from "lucide-react";
 
-const iconMap = {
-  design: Cake,
-  customize: Palette,
-  order: ShoppingCart,
-};
-
-const steps = [
+const features = [
   {
-    id: 1,
-    icon: "design",
-    label: "Étape 1",
+    icon: Cake,
     title: "Créer votre gâteau",
-    description:
-      "Choisissez la forme de votre gâteau, même en 3D selon votre thème.",
+    desc: "Choisissez la base de votre gâteau et commencez votre création.",
   },
   {
-    id: 2,
-    icon: "customize",
-    label: "Étape 2",
-    title: "Personnaliser",
-    description:
-      "Ajoutez vos saveurs, couleurs et personnalisez la décoration selon votre envie.",
+    icon: Palette,
+    title: "Personnalisation 3D",
+    desc: "Visualisez et modifiez votre gâteau en temps réel en 3D.",
   },
   {
-    id: 3,
-    icon: "order",
-    label: "Étape 3",
-    title: "Commander",
-    description:
-      "Validez votre commande et recevez votre gâteau chez vous.",
+    icon: ShoppingCart,
+    title: "Commande facile",
+    desc: "Validez votre commande en quelques clics simplement.",
+  },
+  {
+    icon: Truck,
+    title: "Livraison locale",
+    desc: "Recevez votre gâteau directement chez vous en toute sécurité.",
   },
 ];
 
-function StepCard({ step, isLast }) {
-  const LucideIcon = iconMap[step.icon];
-  const [hover, setHover] = useState(false);
+function FeatureCard({ item }) {
+  const Icon = item.icon;
 
   return (
-    <div style={styles.cardWrapper} className="step-card-wrapper">
-      <div
-        className="step-card"
-        style={{
-          ...styles.card,
-          transform: hover ? "translateY(-6px)" : "translateY(0)",
-          boxShadow: hover
-            ? "0 12px 24px rgba(200,25,74,0.15)"
-            : "0 2px 16px rgba(200,25,74,0.06)",
-        }}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
-        <div style={styles.iconCircle}>
-          {LucideIcon && <LucideIcon size={26} color="#C8194A" />}
-        </div>
-
-        <span style={styles.stepLabel}>{step.label}</span>
-
-        <h3 style={styles.stepTitle}>{step.title}</h3>
-
-        <p style={styles.stepDesc}>{step.description}</p>
+    <div style={styles.card}>
+      <div style={styles.iconBox}>
+        <Icon size={24} color="#C8194A" />
       </div>
 
-      {!isLast && (
-        <div style={styles.connector} className="step-connector">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <path
-              d="M8 16 H24 M18 10 L24 16 L18 22"
-              stroke="#e0b0bf"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-      )}
+      <h3 style={styles.title}>{item.title}</h3>
+
+      <p style={styles.desc}>{item.desc}</p>
     </div>
   );
 }
 
-export default function Howitworkssection() {
+export default function HowItWorksSection() {
   return (
-    <section style={styles.section} className="how-section">
-      <div style={styles.inner}>
+    <section style={styles.section}>
+      <div style={styles.container}>
         <div style={styles.header}>
-          <h2 style={styles.title}>Comment ça marche</h2>
-
+          <h2 style={styles.mainTitle}>Comment ça marche</h2>
           <p style={styles.subtitle}>
-            Trois étapes simples pour obtenir votre gâteau parfait
+            Une expérience simple pour créer votre gâteau parfait
           </p>
         </div>
 
-        <div style={styles.stepsRow} className="steps-row">
-          {steps.map((step, i) => (
-            <StepCard
-              key={step.id}
-              step={step}
-              isLast={i === steps.length - 1}
-            />
+        <div className="grid" style={styles.grid}>
+          {features.map((item, i) => (
+            <FeatureCard key={i} item={item} />
           ))}
         </div>
       </div>
 
       <style>{`
-        * {
-          box-sizing: border-box;
-        }
-
-        .step-card {
-          min-height: 320px;
-          transition: all 0.3s ease;
-        }
-
-        /* TABLET */
-        @media (max-width: 1024px) {
-          .steps-row {
-            gap: 18px !important;
-          }
-
-          .step-card {
-            padding: 32px 24px !important;
-          }
-
-          .step-connector {
-            display: none !important;
+        @media (max-width: 900px) {
+          .grid {
+            grid-template-columns: repeat(2, 1fr) !important;
           }
         }
 
-        /* MOBILE */
-        @media (max-width: 768px) {
-          .how-section {
-            padding: 60px 16px !important;
-          }
-
-          .steps-row {
-            flex-direction: column !important;
-            gap: 20px !important;
-          }
-
-          .step-card-wrapper {
-            width: 100% !important;
-          }
-
-          .step-card {
-            min-height: unset !important;
-            padding: 28px 22px !important;
-            border-radius: 16px !important;
-          }
-
-          .step-card h3 {
-            font-size: 18px !important;
-          }
-
-          .step-card p {
-            font-size: 14px !important;
-            line-height: 1.6 !important;
+        @media (max-width: 600px) {
+          .grid {
+            grid-template-columns: 1fr !important;
           }
         }
 
-        /* SMALL MOBILE */
-        @media (max-width: 480px) {
-          .how-section {
-            padding: 48px 12px !important;
-          }
-
-          .step-card {
-            padding: 24px 18px !important;
-          }
-
-          .step-card h3 {
-            font-size: 17px !important;
-          }
-
-          .step-card p {
-            font-size: 13px !important;
-          }
-
-          .step-card svg {
-            width: 22px;
-            height: 22px;
-          }
+        .grid div:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 10px 25px rgba(200,25,74,0.15);
+          transition: 0.3s ease;
         }
       `}</style>
     </section>
   );
 }
-
 const styles = {
   section: {
     background: "#fafafa",
