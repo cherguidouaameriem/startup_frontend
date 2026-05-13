@@ -79,15 +79,13 @@ export default function BakerProfile() {
               {baker.description || "Artisan pâtissier passionné"}
             </p>
 
-            {/* BADGES */}
+            {/* BADGES 
             <div style={styles.badges}>
               <span style={styles.badge}>
                 <BadgeCheck size={14} /> {baker.plan}
               </span>
-              <span style={styles.badgeStatus}>
-                {baker.status}
-              </span>
-            </div>
+              
+            </div>*/}
 
             {/* CONTACT */}
             <div style={styles.contactGrid}>
