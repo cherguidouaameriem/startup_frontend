@@ -63,21 +63,46 @@ const handleSubmit = async () => {
 
   const isValid = formData.shopName && formData.ownerName && formData.phone && formData.email && formData.password && formData.shopAddress && formData.wilaya ;
 
-  if (submitted) {
-    return (
-      <div style={styles.pageWrapper}>
-        <Navbar />
-        <main style={styles.mainContent}>
-          <div style={styles.successCard}>
-            <div style={styles.iconBox}><CheckCircle size={48} color="#C8194A" /></div>
-            <h2 style={styles.title}>Candidature envoyée !</h2>
-            <p style={styles.subtitle}>Nous vous contacterons sous 24 heures pour finaliser votre inscription.</p>
+ if (submitted) {
+  return (
+    <div style={styles.pageWrapper}>
+      <Navbar />
+
+      <main style={styles.mainContent}>
+        <div style={styles.successCard}>
+
+          <div style={styles.successIcon}>
+            <CheckCircle size={64} color="#C8194A" />
           </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+
+          <h2 style={styles.successTitle}>
+            Demande envoyée avec succès 🎉
+          </h2>
+
+          <p style={styles.successText}>
+            Merci ! Votre formulaire a bien été reçu.<br />
+            Notre équipe va examiner votre boutique sous <b>24 heures</b>.
+          </p>
+
+          <div style={styles.successBadge}>
+            <Clock size={14} />
+            En cours de vérification
+          </div>
+
+          <button
+            style={styles.backBtn}
+            onClick={() => window.location.href = "/"}
+          >
+            Retour à l'accueil
+          </button>
+
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
 
   return (
     <div style={styles.pageWrapper}>
@@ -161,19 +186,19 @@ const handleSubmit = async () => {
             <div style={styles.pricingGrid}>
               <PlanCard 
                 title="Gratuit" price="0 DA" desc="Idéal pour démarrer"
-                features={["5 commandes/mois", "3 gâteaux maximum", "Boutique en ligne"]}
+                features={["5 commandes/mois", "Boutique en ligne"]}
                 selected={formData.selectedPlan === "Gratuit"}
                 onClick={() => selectPlan("Gratuit")}
               />
               <PlanCard 
                 title="Starter" price="1 990 DA/mois" desc="Flexibilité totale"
-                features={["20 commandes/mois", "10 gâteaux maximum", "Tout le plan Gratuit"]}
+                features={["20 commandes/mois", "Tout le plan Gratuit"]}
                 selected={formData.selectedPlan === "Starter"}
                 onClick={() => selectPlan("Starter")}
               />
               <PlanCard 
                 title="Premium" price="2 990 DA/mois" desc="Le plus populaire"
-                features={["Commandes illimitées", "Gâteaux illimités", "Visibilité prioritaire", "Badge vérifié"]}
+                features={["Commandes illimitées","Visibilité prioritaire", "Badge vérifié"]}
                 selected={formData.selectedPlan === "Premium"}
                 isPopular
                 onClick={() => selectPlan("Premium")}
@@ -280,6 +305,70 @@ const LogoUploader = ({ logoFile, onUpload }) => {
 // ─── STYLES ─────────────────────────
 
 const styles = {
+  successCard: {
+  width: "100%",
+  maxWidth: "520px",
+  margin: "0 auto",
+  textAlign: "center",
+  backgroundColor: "#fff",
+  padding: "50px 30px",
+  borderRadius: "24px",
+  boxShadow: "0 10px 40px rgba(0,0,0,0.06)",
+  animation: "fadeIn 0.4s ease-in-out",
+},
+
+successIcon: {
+  width: "90px",
+  height: "90px",
+  margin: "0 auto 20px",
+  backgroundColor: "#FFF1F2",
+  borderRadius: "50%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+successTitle: {
+  fontSize: "26px",
+  fontWeight: "800",
+  color: "#111827",
+  marginBottom: "12px",
+},
+
+successText: {
+  fontSize: "15px",
+  color: "#6b7280",
+  lineHeight: 1.6,
+  marginBottom: "20px",
+},
+
+successBadge: {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "6px",
+  backgroundColor: "#F9FAFB",
+  border: "1px solid #E5E7EB",
+  padding: "6px 12px",
+  borderRadius: "999px",
+  fontSize: "12px",
+  color: "#374151",
+  marginBottom: "25px",
+},
+
+backBtn: {
+  width: "100%",
+  maxWidth: "240px",
+  height: "44px",
+  backgroundColor: "#C8194A",
+  color: "#fff",
+  border: "none",
+  borderRadius: "12px",
+  fontWeight: "600",
+  cursor: "pointer",
+  transition: "0.2s",
+},
+
+
   pageWrapper: { display: "flex", flexDirection: "column", minHeight: "100vh", backgroundColor: "#F8F9FB" },
   mainContent: { flex: 1, display: "flex", justifyContent: "center", padding: "40px 20px", marginTop: "80px" },
   container: { width: "100%", maxWidth: "800px" },
@@ -316,5 +405,6 @@ const styles = {
 
   submitBtn: { width: "100%", height: "56px", backgroundColor: "#C8194A", color: "#fff", border: "none", borderRadius: "16px", fontSize: "16px", fontWeight: "700", cursor: "pointer", transition: "all 0.2s ease", transform: "scale(1)" },
   footerNote: { display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginTop: "16px", fontSize: "13px", color: "#9ca3af" },
-  successCard: { textAlign: "center", backgroundColor: "#fff", padding: "60px", borderRadius: "30px", boxShadow: "0 10px 40px rgba(0,0,0,0.05)" }
+  successCard: { textAlign: "center", backgroundColor: "#fff", padding: "60px", borderRadius: "30px", boxShadow: "0 10px 40px rgba(0,0,0,0.05)" },
+  
 };

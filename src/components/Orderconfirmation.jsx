@@ -79,16 +79,34 @@ export default function OrderConfirmation() {
 
   if (submitted)
     return (
-      <div className="success-screen">
-        <div className="success-card">
-          <Check size={60} color="#C8194A" />
-          <h2>Commande confirmée !</h2>
-          <p>Merci {form.fullName}, votre gâteau est en préparation. 🎂</p>
-          <button onClick={() => navigate("/")} className="back-home">
-            Retour à l'accueil
-          </button>
-        </div>
-      </div>
+    <div className="success-screen">
+  <div className="success-card">
+
+    <Check size={60} color="#C8194A" />
+
+    <h2>Commande confirmée 🎉</h2>
+
+    <p>
+      Merci <b>{form.fullName}</b>, votre commande a bien été reçue.
+      <br />
+      <br />
+      🍰 <b>La pâtisserie va vous contacter très prochainement</b> pour confirmer les détails.
+      <br />
+      🚚 <b>La livraison est estimée sous 48 heures</b> selon la disponibilité.
+    </p>
+
+    <div className="success-info">
+      <span>✔ Confirmation en cours</span>
+      <span>✔ Préparation du gâteau</span>
+      <span>✔ Livraison planifiée</span>
+    </div>
+
+    <button onClick={() => navigate("/")} className="back-home">
+      Retour à l'accueil
+    </button>
+
+  </div>
+</div>
     );
 
   return (
