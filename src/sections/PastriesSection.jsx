@@ -14,7 +14,10 @@ function StarRating({ rating }) {
     </span>
   );
 }
-
+function shortText(text = "", maxSentences = 1) {
+  const sentences = text.split(/(?<=[.!?])\s+/); // coupe par phrase
+  return sentences.slice(0, maxSentences).join(" ") + (sentences.length > maxSentences ? "..." : "");
+}
 // ─── CARD ─────────────────────────────
 function PastryCard({ pastry, onView }) {
   return (
@@ -40,8 +43,9 @@ function PastryCard({ pastry, onView }) {
         <h3 style={cardStyles.name}>{pastry.shopName}</h3>
 
         <StarRating rating={pastry.rating} />
-
-        <p style={cardStyles.specialty}>{pastry.description}</p>
+<p style={cardStyles.specialty}>
+  {shortText(pastry.description)}
+</p>
 
         <span style={cardStyles.meta}>{pastry.shopAddress}</span>
 

@@ -23,7 +23,6 @@ export default function HeroSection({ onBrowseShops }) {
 
           <h1 className="hero-title">
             Créez, <span className="text-accent">visualisez en</span>
-            <br />
             <span className="text-accent">3D</span>, et <span className="text-accent">savourez</span>
           </h1>
 
@@ -37,9 +36,14 @@ export default function HeroSection({ onBrowseShops }) {
             <Button size="lg" className="btn-primary-custom" onClick={() => navigate("/delivery")}>
               Commencer à créer <ArrowRight size={20} style={{ marginLeft: '8px' }} />
             </Button>
-            <Button size="lg" variant="outline" className="btn-outline-custom" onClick={onBrowseShops}>
-              Explorer les pâtisseries
-            </Button>
+           <Button
+  size="lg"
+  variant="outline"
+  className="btn-outline-custom"
+  onClick={() => navigate("/pastry_shops")}
+>
+  Explorer les pâtisseries
+</Button>
           </div>
         </motion.div>
 

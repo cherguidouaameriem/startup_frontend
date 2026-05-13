@@ -18,9 +18,7 @@ const CakeIcon = () => (
 
 const defaultLinks = [
   { label: "Accueil", href: "/" },
-  { label: "Personnaliser", href: "#design" },
-  { label: "Pâtisseries", href: "#partners" },
-];
+{ label: "Pâtisseries", href: "/pastry-shops" },];
 
 export default function Navbar({ links = defaultLinks }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -89,13 +87,13 @@ export default function Navbar({ links = defaultLinks }) {
     <span>Portail Pâtissier</span>
   </button>
 
-  {/* TEMP ADMIN ACCESS */}
+  {/* TEMP ADMIN ACCESS 
   <button 
     style={styles.adminBtn} 
     onClick={() => navigate("/admin")}
   >
     Admin
-  </button>
+  </button>*/}
 </div>
           )}
 
