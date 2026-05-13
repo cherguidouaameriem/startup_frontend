@@ -53,7 +53,6 @@ export default function Home() {
           onBrowseShops={handleBrowseShops}
         />
 
-        <Howitworkssection />
 
         <div id="pastries">
           <PastriesSection

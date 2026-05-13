@@ -118,7 +118,7 @@ export default function BakeryPartnerSection() {
             <div style={styles.floatingCard}>
               <div style={styles.floatingBadge}>
                 <Store size={14} color="#fff" />
-                +100 pâtissiers
+      
               </div>
             </div>
           </div>
