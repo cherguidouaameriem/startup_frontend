@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { ChefHat, Menu, X } from "lucide-react"; // Import de Menu et X pour le mobile
+import { useNavigate, useLocation } from "react-router-dom";
+import { ChefHat, Menu, X } from "lucide-react";
 
 const CakeIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C8194A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#C8194A"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" />
     <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1" />
     <path d="M2 21h20" />
@@ -17,14 +26,17 @@ const CakeIcon = () => (
 );
 
 const defaultLinks = [
-  { label: "Accueil", href: "/" },
-{ label: "Pâtisseries", href: "/pastry-shops" },];
+  { label: "Accueil", path: "/" },
+  { label: "Pâtisseries", path: "/pastry-shops" },
+];
 
 export default function Navbar({ links = defaultLinks }) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); // État pour le menu mobile
+  const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,23 +50,30 @@ export default function Navbar({ links = defaultLinks }) {
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <nav style={{
-      ...styles.nav,
-      ...(isScrolled || isOpen ? styles.navScrolled : styles.navTransparent)
-    }}>
+    <nav
+      style={{
+        ...styles.nav,
+        ...(isScrolled || isOpen
+          ? styles.navScrolled
+          : styles.navTransparent),
+      }}
+    >
       <div style={styles.inner}>
-        
         {/* LOGO */}
-        <div onClick={() => navigate("/")} style={{ ...styles.logo, cursor: "pointer" }}>
+        <div
+          onClick={() => navigate("/")}
+          style={{ ...styles.logo, cursor: "pointer" }}
+        >
           <CakeIcon />
           <span style={styles.logoText}>HalwaTech</span>
         </div>
@@ -64,12 +83,16 @@ export default function Navbar({ links = defaultLinks }) {
           <ul style={styles.navLinks}>
             {links.map((link) => (
               <li key={link.label}>
-                <a
-                  href={link.href}
-                  style={link.label === "Accueil" ? styles.activeLinkText : styles.linkText}
+                <span
+                  onClick={() => navigate(link.path)}
+                  style={
+                    isActive(link.path)
+                      ? styles.activeLinkText
+                      : styles.linkText
+                  }
                 >
                   {link.label}
-                </a>
+                </span>
               </li>
             ))}
           </ul>
@@ -78,53 +101,57 @@ export default function Navbar({ links = defaultLinks }) {
         {/* RIGHT SECTION */}
         <div style={styles.rightSection}>
           {!isMobile && (
-           <div style={{ display: "flex", gap: 10 }}>
-  <button 
-    style={styles.portalBtn} 
-    onClick={() => navigate("/connexion_patis")}
-  >
-    <ChefHat size={18} />
-    <span>Portail Pâtissier</span>
-  </button>
-
-  {/* TEMP ADMIN ACCESS 
-  <button 
-    style={styles.adminBtn} 
-    onClick={() => navigate("/admin")}
-  >
-    Admin
-  </button>*/}
-</div>
+            <button
+              style={styles.portalBtn}
+              onClick={() => navigate("/connexion_patis")}
+            >
+              <ChefHat size={18} />
+              <span>Portail Pâtissier</span>
+            </button>
           )}
 
-          {/* MOBILE TOGGLE */}
+          {/* MOBILE MENU */}
           {isMobile && (
-            <button onClick={toggleMenu} style={styles.menuIcon}>
-              {isOpen ? <X size={28} color="#1f2937" /> : <Menu size={28} color="#1f2937" />}
+            <button onClick={() => setIsOpen(!isOpen)} style={styles.menuIcon}>
+              {isOpen ? (
+                <X size={28} color="#1f2937" />
+              ) : (
+                <Menu size={28} color="#1f2937" />
+              )}
             </button>
           )}
         </div>
       </div>
 
-      {/* MOBILE MENU OVERLAY */}
+      {/* MOBILE MENU */}
       {isMobile && isOpen && (
         <div style={styles.mobileOverlay}>
           <ul style={styles.mobileLinks}>
             {links.map((link) => (
-              <li key={link.label} style={{ width: "100%", textAlign: "center" }}>
-                <a
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  style={link.label === "Accueil" ? styles.mobileActiveLink : styles.mobileLink}
+              <li key={link.label}>
+                <span
+                  onClick={() => {
+                    navigate(link.path);
+                    setIsOpen(false);
+                  }}
+                  style={
+                    isActive(link.path)
+                      ? styles.mobileActiveLink
+                      : styles.mobileLink
+                  }
                 >
                   {link.label}
-                </a>
+                </span>
               </li>
             ))}
+
             <li style={{ marginTop: 20 }}>
-              <button 
-                style={styles.mobilePortalBtn} 
-                onClick={() => { navigate("/connexion_patis"); setIsOpen(false); }}
+              <button
+                style={styles.mobilePortalBtn}
+                onClick={() => {
+                  navigate("/connexion_patis");
+                  setIsOpen(false);
+                }}
               >
                 <ChefHat size={20} />
                 <span>Portail Pâtissier</span>
