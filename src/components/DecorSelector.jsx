@@ -20,7 +20,8 @@ export default function DecorSelector({
   onBack,
   selectedCake,
   frostingColor,
-  selectedPatisserie   // ✅ AJOUT
+  selectedPatisserie,
+  totalPrice,   // ✅ ADD THIS
 }){
   const navigate = useNavigate();
 
@@ -68,7 +69,8 @@ export default function DecorSelector({
     selectedCake: safeCake,
     frostingColor,
     decor,
-    selectedPatisserie   // 🔥 AJOUT
+    selectedPatisserie,
+    totalPrice, // 🔥 ADD THIS
   },
 });
   };

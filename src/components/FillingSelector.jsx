@@ -4,16 +4,34 @@ import { ArrowRight } from "lucide-react";
 const SPONGE_FLAVORS = ["Vanille", "Chocolat", "Red Velvet", "Citron"];
 const FILLINGS = ["Chocolat", "Caramel", "Lotus", "Fraise", "Nutella"];
 
-export default function FillingSelector({ onNext, onBack, layers = 2 }) {
+export default function FillingSelector({
+  onNext,
+  onBack,
+  layers = 2,
 
-  const [selectedSponge, setSelectedSponge] = useState("Vanille");
+  selectedSponge,
+  setSelectedSponge,
 
-  const [fillingsByLayer, setFillingsByLayer] = useState([]);
+  fillingsByLayer,
+  setFillingsByLayer,
+}) {
+
+
 
   // ✅ IMPORTANT : reset quand layers change
-  useEffect(() => {
-    setFillingsByLayer(Array(layers).fill("Chocolat"));
-  }, [layers]);
+useEffect(() => {
+  setFillingsByLayer((prev) => {
+    const updated = [...prev];
+
+    // add missing layers
+    while (updated.length < layers) {
+      updated.push(null);
+    }
+
+    // remove extra layers
+    return updated.slice(0, layers);
+  });
+}, [layers]);
 
   const handleFillingChange = (layerIndex, filling) => {
     const updated = [...fillingsByLayer];
@@ -26,8 +44,9 @@ export default function FillingSelector({ onNext, onBack, layers = 2 }) {
 
       <h2 style={styles.title}>Génoise & Garniture</h2>
       <p style={styles.subtitle}>
-        Choisissez une garniture pour chaque couche ({layers} couches)
-      </p>
+  Choisissez une garniture pour chaque couche intérieure
+  ({layers} garnitures)
+</p>
 
       {/* Génoise */}
       <div style={styles.section}>

@@ -14,16 +14,16 @@ import LayerCake from "./cakeshape/LayerCake";
 import DoubleCake from "./cakeshape/DoubleCake";
 import RectangleCake from "./cakeshape/RectangleCake";
 import CakeScene from "./Scene";
-
+import { getLayers } from "../utils/cakeRules";
 /**
  * CATALOGUE DES FORMES
  * Modifiable facilement via une API backend
  */
 const PRICING = {
-  filling: {
-    vanille: 20,
+  sponge: {
+    vanille: 0,
     chocolat: 200,
-    "red velvet": 250,
+    "red velvet": 350,
     citron: 150,
   },
 
@@ -42,6 +42,40 @@ const PRICING = {
     "Décoration de gâteau": 300,
     chocolate: 250,
   },
+
+  fillings: {
+    "mini-cake": {
+      chocolat: 100,
+      caramel: 120,
+      lotus: 180,
+      fraise: 130,
+      nutella: 200,
+    },
+
+    "layer-cake": {
+      chocolat: 180,
+      caramel: 220,
+      lotus: 300,
+      fraise: 250,
+      nutella: 350,
+    },
+
+    "rectangle-cake": {
+      chocolat: 300,
+      caramel: 350,
+      lotus: 500,
+      fraise: 420,
+      nutella: 600,
+    },
+
+    "Double-cake": {
+      chocolat: 250,
+      caramel: 300,
+      lotus: 420,
+      fraise: 350,
+      nutella: 500,
+    },
+  },
 };
 const SHAPES_CATALOG = [
   {
@@ -49,7 +83,7 @@ const SHAPES_CATALOG = [
     name: "Format Mini",
     description: "Intime et élégant",
     people: 2,
-    layers: 3,
+    layers: 2,
     basePrice: 1200,
     component: MiniCake,
     image: "/images/cakes/MiniCake.PNG",
@@ -187,42 +221,65 @@ const [decor, setDecor] = useState({
 });  const normalize = (str) =>
   str?.toLowerCase().trim();
   const [totalPrice, setTotalPrice] = useState(0);
-const getLayers = () => {
-  if (!selectedCake) return 0;
 
-  const overrides = {
-    "mini-cake": 2,
-    "Double-cake": 4,
-  };
 
-  return overrides[selectedCake.id] ?? selectedCake.layers;
-};
+useEffect(() => {
+  if (!selectedCake) return;
+
+  const layers = getLayers(selectedCake);
+
+  setFillingsByLayer((prev) => {
+    const safe = Array.isArray(prev) ? prev : [];
+
+    return Array.from({ length: layers }, (_, i) => {
+      return safe[i] ?? null;
+    });
+  });
+}, [selectedCake]);
+
 useEffect(() => {
   if (!selectedCake) return;
 
   let price = selectedCake.basePrice;
 
-  // ─── Génoise ───
+  // ───────── GÉNOISE ─────────
   if (flavor) {
-price += PRICING.filling[normalize(flavor)] || 0;  }
+    price += PRICING.sponge[normalize(flavor)] || 0;
+  }
 
-  // ─── GLAÇAGE ───
+  // ───────── GLAÇAGE ─────────
   price += PRICING.frosting[frostingColor] || 0;
 
-  // ─── DÉCOR ───
+  // ───────── DÉCOR ─────────
   (decor?.types || []).forEach((d) => {
     price += PRICING.decor[d] || 0;
   });
 
-  // ─── 🍰 GARNITURE PAR COUCHE (IMPORTANT FIX)
-  if (fillingsByLayer?.length) {
-    fillingsByLayer.forEach((f) => {
-price += PRICING.filling[normalize(f)] || 0;    });
-  }
+  // ───────── GARNITURE PAR COUCHE ─────────
+  const layers = getLayers(selectedCake);
+
+const safeFillings = fillingsByLayer.slice(0, layers);
+
+safeFillings.forEach((filling) => {
+  if (!filling) return;
+
+  const fillingPrice =
+    PRICING.fillings[selectedCake.id]?.[
+      normalize(filling)
+    ] || 0;
+
+  price += fillingPrice;
+});
 
   setTotalPrice(price);
 
-}, [selectedCake, flavor, frostingColor, decor, fillingsByLayer]);
+}, [
+  selectedCake,
+  flavor,
+  frostingColor,
+  decor,
+  fillingsByLayer,
+]);
   const handleShapeSelect = (shape) => {
     setSelectedCake({
       ...shape,
@@ -254,7 +311,7 @@ price += PRICING.filling[normalize(f)] || 0;    });
                             frostingColor={frostingColor} 
                             decor={decor}
                             flavor={flavor} 
-                            layers={getLayers()}
+                            layers={getLayers(selectedCake)}
                           />
                         ) : null;
                       })()}
@@ -316,13 +373,13 @@ price += PRICING.filling[normalize(f)] || 0;    });
             )}
 
          {currentStep === 2 && (
-  <FillingSelector
-  layers={getLayers()}
-  onNext={(data) => {
-    setFlavor(data.selectedSponge);
-    setFillingsByLayer(data.fillingsByLayer); // ✅ IMPORTANT
-    setCurrentStep(3);
-  }}
+ <FillingSelector
+  layers={getLayers(selectedCake)}
+  selectedSponge={flavor}
+  setSelectedSponge={setFlavor}
+  fillingsByLayer={fillingsByLayer}
+  setFillingsByLayer={setFillingsByLayer}
+  onNext={() => setCurrentStep(3)}
   onBack={() => setCurrentStep(1)}
 />
 )}
@@ -342,7 +399,8 @@ price += PRICING.filling[normalize(f)] || 0;    });
   setDecor={setDecor}
   frostingColor={frostingColor}
   selectedCake={selectedCake}
-  selectedPatisserie={selectedPatisserie} 
+  selectedPatisserie={selectedPatisserie}
+  totalPrice={totalPrice}   // ✅ ADD THIS
   onBack={() => setCurrentStep(3)}
 />
 )}
@@ -501,7 +559,7 @@ priceCard: {
   stepLabel: {
     fontSize: "13px",
     fontWeight: "600",
-    color: "#374151",
+    color: "#0c0206",
   },
   stepConnector: {
     width: "30px",
@@ -547,7 +605,7 @@ const cardStyles = {
     flexDirection: "column",
   },
   imageArea: {
-    height: "160px",
+    height: "130px",
     background: "#F9FAFB",
     display: "flex",
     alignItems: "center",
@@ -555,7 +613,8 @@ const cardStyles = {
     position: "relative",
   },
   image: {
-    height: "80%",
+    height: "100%",
+    
     objectFit: "contain",
   },
   selectedBadge: {
