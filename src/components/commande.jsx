@@ -393,18 +393,22 @@ safeFillings.forEach((filling) => {
               />
             )}
 
-           {currentStep === 4 && (
- <DecorSelector
-  decor={decor}
-  setDecor={setDecor}
-  frostingColor={frostingColor}
-  selectedCake={selectedCake}
-  selectedPatisserie={selectedPatisserie}
-  totalPrice={totalPrice}   // ✅ ADD THIS
-  onBack={() => setCurrentStep(3)}
-/>
-)}
-          </div>
+         {currentStep === 4 && (
+  <DecorSelector
+    decor={decor}
+    setDecor={setDecor}
+    frostingColor={frostingColor}
+    selectedCake={selectedCake}
+    selectedPatisserie={selectedPatisserie}
+    totalPrice={totalPrice}
+
+    // 🔥 ADD THESE (IMPORTANT)
+    flavor={flavor}
+    fillingsByLayer={fillingsByLayer}
+
+    onBack={() => setCurrentStep(3)}
+  />
+)}      </div>
         </main>
       </div>
 

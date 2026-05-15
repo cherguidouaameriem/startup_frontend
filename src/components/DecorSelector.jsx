@@ -17,11 +17,13 @@ const COLORS = [
 export default function DecorSelector({
   decor,
   setDecor,
-  onBack,
-  selectedCake,
   frostingColor,
+  selectedCake,
   selectedPatisserie,
-  totalPrice,   // ✅ ADD THIS
+  totalPrice,
+  flavor,
+  fillingsByLayer,
+  onBack
 }){
   const navigate = useNavigate();
 
@@ -56,24 +58,29 @@ export default function DecorSelector({
     });
   };
 
-  const handleNext = () => {
-    if (!selectedCake) {
-      alert("Veuillez choisir un gâteau");
-      return;
-    }
+const handleNext = () => {
+  if (!selectedCake) {
+    alert("Veuillez choisir un gâteau");
+    return;
+  }
 
-    const { component, ...safeCake } = selectedCake;
+  const { component, ...safeCake } = selectedCake;
 
   navigate("/order-confirmation", {
-  state: {
-    selectedCake: safeCake,
-    frostingColor,
-    decor,
-    selectedPatisserie,
-    totalPrice, // 🔥 ADD THIS
-  },
-});
-  };
+    state: {
+      cake: {
+        ...safeCake,
+        sponge: flavor,        // ✅ IMPORTANT
+      },
+
+      frostingColor,
+      decor,
+      fillingsByLayer,        // ✅ IMPORTANT
+      selectedPatisserie,
+      totalPrice,
+    },
+  });
+};
 
   return (
     <div style={styles.container}>

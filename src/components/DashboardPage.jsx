@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   LayoutDashboard, ShoppingBag, UtensilsCrossed, User, 
-  Package, CheckCircle, Clock, TrendingUp, Eye, X, Phone, MapPin, Trash2, Check
+  Package, CheckCircle, Clock, TrendingUp, Eye, X, Phone, MapPin, Trash2, Check,Cake
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -425,31 +425,137 @@ const handleUpdateProfile = async () => {
               <button className="close-btn" onClick={() => setSelectedOrder(null)}><X size={20}/></button>
             </div>
 
-            <div className="modal-body">
-              <div className="detail-group">
-                <h4><User size={16}/> Client</h4>
-                <p><strong>{selectedOrder.customer?.fullName}</strong></p>
-                <p><Phone size={14}/> {selectedOrder.customer?.phone}</p>
-                <p><MapPin size={14}/> {selectedOrder.customer?.address}</p>
-              </div>
+           <div className="modal-body">
 
-              <div className="detail-group">
-                <h4><ShoppingBag size={16}/> Spécifications du Gâteau</h4>
-                <div className="cake-grid-mini">
-                  <p><strong>Forme:</strong> {selectedOrder.selectedCake?.name}</p>
-                  <p><strong>Étages:</strong> {selectedOrder.selectedCake?.layers}</p>
-                  <p><strong>Crème:</strong> <span className="color-preview" style={{backgroundColor: selectedOrder.frostingColor}}></span></p>
-                  <p><strong>Décors:</strong> {selectedOrder.decor?.types?.join(", ") || "Classique"}</p>
-                </div>
-                {selectedOrder.decor?.text && (
-                  <div className="cake-text-box">
-                    <span>Message personnalisé :</span>
-                    <p>"{selectedOrder.decor.text}"</p>
-                  </div>
-                )}
-              </div>
-            </div>
+  {/* CLIENT */}
+  <div className="detail-group">
+    <h4><User size={16}/> Client</h4>
 
+    <p>
+      <strong>{selectedOrder.customer?.fullName}</strong>
+    </p>
+
+    <p>
+      <Phone size={14}/> {selectedOrder.customer?.phone}
+    </p>
+
+    <p>
+      <MapPin size={14}/> {selectedOrder.customer?.address}
+    </p>
+
+    <p>
+      <strong>Date:</strong>{" "}
+      {new Date(selectedOrder.deliveryDate).toLocaleDateString()}
+    </p>
+  </div>
+
+  {/* GATEAU */}
+  <div className="detail-group">
+
+    <h4>
+      <Cake size={16}/> Détails du Gâteau
+    </h4>
+
+    <div className="cake-grid-mini">
+
+      <p>
+        <strong>Gâteau:</strong>{" "}
+        {selectedOrder.cake?.name}
+      </p>
+
+      <p>
+        <strong>Personnes:</strong>{" "}
+        {selectedOrder.cake?.people}
+      </p>
+
+      <p>
+        <strong>Étages:</strong>{" "}
+        {selectedOrder.cake?.layers}
+      </p>
+
+      <p>
+        <strong>Génoise:</strong>{" "}
+        {selectedOrder.cake?.sponge}
+      </p>
+
+      <div className="color-line">
+        <strong>Glaçage:</strong>
+
+        <span
+          className="color-preview"
+          style={{
+            backgroundColor:
+              selectedOrder.cake?.frostingColor
+          }}
+        />
+      </div>
+
+    </div>
+  </div>
+
+  {/* DECOR */}
+  <div className="detail-group">
+
+    <h4>🎨 Décoration</h4>
+
+    {selectedOrder.cake?.decor?.types?.length ? (
+
+      selectedOrder.cake.decor.types.map((item, i) => (
+
+        <div
+          key={i}
+          className="decor-line"
+        >
+          <span>{item}</span>
+
+          <div
+            className="decor-color"
+            style={{
+              background:
+                selectedOrder.cake?.decor?.colors?.[item] || "#ddd"
+            }}
+          />
+        </div>
+
+      ))
+
+    ) : (
+      <p>Décoration standard</p>
+    )}
+
+    {selectedOrder.cake?.decor?.text && (
+      <div className="cake-text-box">
+        <span>Message personnalisé :</span>
+
+        <p>
+          "{selectedOrder.cake.decor.text}"
+        </p>
+      </div>
+    )}
+
+  </div>
+
+  {/* GARNITURES */}
+  <div className="detail-group">
+
+    <h4>🍫 Garnitures</h4>
+
+    {selectedOrder.cake?.fillingsByLayer?.length ? (
+
+      selectedOrder.cake.fillingsByLayer.map((filling, i) => (
+        <p key={i}>
+          <strong>Couche {i + 1}:</strong>{" "}
+          {filling || "vide"}
+        </p>
+      ))
+
+    ) : (
+      <p>Aucune garniture</p>
+    )}
+
+  </div>
+
+</div>
             <div className="modal-footer">
                <div className="modal-total">
                  <span>Prix Total</span>

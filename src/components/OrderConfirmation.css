@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap');
 
+/* --- Structure de base --- */
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -20,7 +21,7 @@
   padding: 0 24px;
 }
 
-/* Page Header Styling */
+/* --- En-têtes --- */
 .page-header h1 {
   font-family: 'Playfair Display', serif;
   font-size: 38px;
@@ -45,7 +46,7 @@
   font-size: 14px;
 }
 
-/* Grid Layout */
+/* --- Layout Grid --- */
 .order-grid {
   display: grid;
   grid-template-columns: 1fr 420px;
@@ -58,7 +59,7 @@
   .summary-section { order: -1; }
 }
 
-/* Card General Styling */
+/* --- Cartes d'information --- */
 .info-card {
   background: white;
   border-radius: 28px;
@@ -82,7 +83,7 @@
   margin: 0;
 }
 
-/* Form Groups - Matching your screenshot labels */
+/* --- Formulaires --- */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -114,7 +115,11 @@
   box-shadow: 0 0 0 4px rgba(200, 25, 74, 0.05);
 }
 
-/* Summary Card - Specialized layout */
+/* --- Récapitulatif (Summary Card) --- */
+.summary-card {
+  border: 1px solid #fceef2;
+}
+
 .summary-header {
   display: flex;
   align-items: center;
@@ -124,40 +129,87 @@
 
 .summary-icon-box {
   background: #fff1f2;
-  padding: 8px;
-  border-radius: 10px;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 18px;
+  align-items: center;
   font-size: 15px;
+}
+
+.summary-row.column {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .s-label { color: #64748b; font-weight: 500; }
 .s-value { color: #0f172a; font-weight: 700; text-align: right; }
-.decor-text { max-width: 200px; line-height: 1.4; }
 
-/* The Color Dot layout from your image */
-.color-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
+/* --- Éléments Visuels (Couleurs et Décor) --- */
 .color-dot {
-  width: 14px;
-  height: 14px;
   border-radius: 50%;
   border: 2px solid white;
   box-shadow: 0 0 0 1px #e2e8f0;
 }
 
-.small-text {
-  font-size: 11px;
-  line-height: 1.1;
+.color-dot.large { width: 22px; height: 22px; }
+.color-dot.small { width: 14px; height: 14px; }
+
+.decor-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 16px;
 }
+
+.decor-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- Garnitures (Badges par couche) --- */
+.filling-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+.filling-tag {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 13px;
+  gap: 8px;
+}
+
+.layer-num {
+  font-weight: 800;
+  color: #C8194A;
+  font-size: 11px;
+  background: #fff1f2;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.filling-name { color: #334155; font-weight: 600; }
 
 .summary-divider {
   height: 1px;
@@ -165,6 +217,7 @@
   margin: 25px 0;
 }
 
+/* --- Prix Total --- */
 .total-display {
   text-align: center;
   margin-bottom: 30px;
@@ -185,7 +238,7 @@
   margin-top: 5px;
 }
 
-/* Button */
+/* --- Bouton de Confirmation --- */
 .confirm-btn {
   width: 100%;
   padding: 18px;
@@ -194,12 +247,13 @@
   border: none;
   border-radius: 18px;
   font-weight: 700;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 10px 20px rgba(200, 25, 74, 0.15);
 }
 
@@ -213,30 +267,4 @@
   color: #cbd5e1;
   box-shadow: none;
   cursor: not-allowed;
-}
-
-/* Success Card */
-.success-screen {
-  display: flex;
-  justify-content: center;
-  padding-top: 100px;
-}
-
-.success-card {
-  text-align: center;
-  background: white;
-  padding: 50px;
-  border-radius: 35px;
-  max-width: 450px;
-}
-
-.success-icon-wrapper {
-  background: #C8194A;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
 }

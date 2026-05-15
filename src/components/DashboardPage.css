@@ -475,6 +475,43 @@ footer {
     backdrop-filter: blur(4px);
 }
 
+.color-line{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:6px;
+}
+
+.decor-line{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 0;
+  border-bottom:1px solid #f1f1f1;
+}
+
+.decor-color{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:1px solid #ddd;
+  flex-shrink:0;
+}
+
+.color-preview{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:1px solid #ddd;
+  display:inline-block;
+}
+
+.cake-grid-mini{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
 /* On s'assure que le contenu est aussi bien positionné */
 .modal-content.edit-profile-modal {
     z-index: 10000 !important;
