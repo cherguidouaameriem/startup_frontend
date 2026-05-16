@@ -1,31 +1,23 @@
-import React, { useState } from "react";
-import {
-  Cake,
-  User,
-  Phone,
-  Calendar,
-  Check,
-  ChevronRight,
-  ArrowLeft
-} from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { API } from "../api";
+import { useState } from "react";
+import { Cake, User, Phone, MapPin, Clock, Check, Truck, Calendar } from "lucide-react";
+import "./OrderConfirmation.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import "./OrderConfirmation.css";
-
+import {API} from "../api";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getLayers } from "../utils/cakeRules";
 export default function OrderConfirmation() {
   const location = useLocation();
   const navigate = useNavigate();
 
   const {
-    cake,
-    frostingColor,
-    decor,
-    fillingsByLayer,
-    selectedPatisserie,
-    totalPrice,
-  } = location.state || {};
+  selectedCake,
+  frostingColor,
+  decor,
+  delivery,
+  selectedPatisserie,
+  totalPrice,
+} = location.state || {};
 
   const [form, setForm] = useState({
     fullName: "",
@@ -35,11 +27,11 @@ export default function OrderConfirmation() {
 
   const [selectedDate, setSelectedDate] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  // 🔥 DATE MIN = J+2
   const getMinDate = () => {
     const today = new Date();
     today.setDate(today.getDate() + 2);
@@ -47,226 +39,249 @@ export default function OrderConfirmation() {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`${API}/api/orders`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          patisserieId: selectedPatisserie,
-          cake: {
-            ...cake,
-            frostingColor,
-            decor,
-            fillingsByLayer,
-          },
-          customer: form,
-          deliveryDate: selectedDate,
-          totalPrice,
-        }),
-      });
+  try {
+    const res = await fetch(`${API}/api/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
 
-      if (!res.ok) throw new Error();
-      setSubmitted(true);
-    } catch (err) {
-      alert("Erreur lors de la validation.");
-    } finally {
-      setLoading(false);
+      body: JSON.stringify({
+       patisserieId: selectedPatisserie,
+
+        cake: {
+          name: selectedCake.name,
+          people: selectedCake.people,
+          layers: selectedCake.layers,
+        },
+
+        frostingColor,
+        decor,
+        customer: form,
+        deliveryDate: selectedDate, // (IMPORTANT: now you store it)
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.log("SERVER ERROR:", data);
+      throw new Error(data.message);
     }
-  };
 
-  const isFormValid =
+    setSubmitted(true);
+  } catch (err) {
+    alert("Erreur lors de la commande");
+  }
+};
+  // 🔥 VALIDATION
+  const valid =
     form.fullName && form.phone && form.address && selectedDate;
 
-  if (submitted) {
+  if (!selectedCake)
     return (
-      <div className="page-wrapper">
-        <Navbar />
-        <main className="success-screen">
-          <div className="success-card">
-            <div className="success-icon-wrapper">
-              <Check size={32} color="#fff" />
-            </div>
-            <h2>Commande confirmée 🎉</h2>
-            <p>Merci <b>{form.fullName}</b>, votre pâtissier a été notifié.</p>
-            <button onClick={() => navigate("/")} className="confirm-btn">
-              Retour à l'accueil
-            </button>
-          </div>
-        </main>
-        <Footer />
+      <div className="error-state">
+        <h2>⚠️ Aucune commande trouvée</h2>
       </div>
     );
-  }
+
+  if (submitted)
+    return (
+    <div className="success-screen">
+  <div className="success-card">
+
+    <Check size={60} color="#C8194A" />
+
+    <h2>Commande confirmée 🎉</h2>
+
+    <p>
+      Merci <b>{form.fullName}</b>, votre commande a bien été reçue.
+      <br />
+      <br />
+      🍰 <b>La pâtisserie va vous contacter très prochainement</b> pour confirmer les détails.
+      <br />
+      🚚 <b>La livraison est estimée sous 48 heures</b> selon la disponibilité.
+    </p>
+
+    <div className="success-info">
+      <span>✔ Confirmation en cours</span>
+      <span>✔ Préparation du gâteau</span>
+      <span>✔ Livraison planifiée</span>
+    </div>
+
+    <button onClick={() => navigate("/")} className="back-home">
+      Retour à l'accueil
+    </button>
+
+  </div>
+</div>
+    );
 
   return (
     <div className="page-wrapper">
       <Navbar />
 
-      <main className="confirmation-main">
-        <div className="container">
-
-          <button onClick={() => navigate(-1)} className="btn-back">
-            <ArrowLeft size={16} /> Retour
-          </button>
-
+      <div className="confirmation-page">
+        <div className="confirmation-container">
+          
+          {/* HEADER */}
           <header className="page-header">
-            <h1>Finaliser la commande</h1>
-            <p>Vérifiez tous les détails de votre gâteau</p>
+            <div className="header-icon">
+              <Check size={28} color="#C8194A" />
+            </div>
+            <h1>Confirmer votre commande</h1>
+            <p>Vérifiez les détails et validez votre création</p>
           </header>
 
-          <div className="order-grid">
-
-            {/* FORM */}
-            <div className="form-section">
-
-              <section className="info-card">
-                <div className="card-title">
-                  <User size={18} />
-                  <h3>Vos Coordonnées</h3>
-                </div>
-
-                <div className="form-group">
-                  <label>Nom Complet</label>
-                  <input name="fullName" onChange={handleChange} />
-                </div>
-
-                <div className="form-group">
-                  <label>Téléphone</label>
-                  <input name="phone" onChange={handleChange} />
-                </div>
-
-                <div className="form-group">
-                  <label>Adresse</label>
-                  <input name="address" onChange={handleChange} />
-                </div>
-              </section>
-
-              <section className="info-card">
-                <div className="card-title">
-                  <Calendar size={18} />
-                  <h3>Date de Livraison</h3>
-                </div>
-
-                <div className="form-group">
-                  <input
-                    type="date"
-                    value={selectedDate}
-                    min={getMinDate()}
-                    onChange={(e) => setSelectedDate(e.target.value)}
-                  />
-                </div>
-              </section>
-
+          {/* LIVRAISON */}
+          <section className="info-card">
+            <div className="card-title">
+              <Truck size={20} color="#C8194A" />
+              <h3>Livraison</h3>
             </div>
 
-            {/* SUMMARY (UNCHANGED STRUCTURE) */}
-            <aside className="summary-section">
-  <div className="sticky-card">
-    <div className="info-card summary-card">
-      <div className="summary-header">
-        <div className="summary-icon-box">
-          <Cake size={20} color="#C8194A" />
-        </div>
-        <h3>Récapitulatif</h3>
-      </div>
+            <div className="delivery-grid">
+              <div className="info-item">
+                <MapPin size={14} />
+                <span>{delivery?.wilaya || "Oran"}</span>
+              </div>
+            </div>
 
-      <div className="summary-list">
-        {/* Informations de base */}
-        <div className="summary-row">
-          <span className="s-label">Gâteau</span>
-          <span className="s-value">{cake?.name || "Format Mini"}</span>
-        </div>
-        <div className="summary-row">
-          <span className="s-label">Personnes</span>
-          <span className="s-value">{cake?.people || "2"}</span>
-        </div>
-        <div className="summary-row">
-          <span className="s-label">Étages</span>
-          <span className="s-value">{cake?.layers || "2"}</span>
-        </div>
-        <div className="summary-row">
-          <span className="s-label">Génoise</span>
-          <span className="s-value">{cake?.sponge || "Chocolat"}</span>
-        </div>
+            {/* 🔥 DATE PICKER */}
+            <div className="input-box">
+              <label>
+                <Calendar size={14} /> Date de livraison
+              </label>
 
-        {/* Glaçage avec indicateur visuel */}
-        <div className="summary-row align-center">
-          <span className="s-label">Glaçage</span>
-          <div className="visual-badge">
-            <div 
-              className="color-dot large" 
-              style={{ background: frostingColor || "#ffffff", border: "1px solid #e2e8f0" }} 
-            />
-          </div>
-        </div>
+              <input
+                type="date"
+                value={selectedDate}
+                min={getMinDate()}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
 
-        <div className="summary-divider"></div>
+              <p style={{ fontSize: 12, color: "#888" }}>
+                Disponible à partir du {getMinDate()}
+              </p>
+            </div>
+          </section>
 
-        {/* Décoration dynamique */}
-        <div className="summary-row column">
-          <span className="s-label">Décoration</span>
-          <div className="decor-list">
-            {decor?.types?.length ? (
-              decor.types.map((item, i) => (
-                <div key={i} className="decor-item">
-                  <span className="s-value">{item}</span>
-                  <div 
-                    className="color-dot small" 
-                    style={{ background: decor?.colors?.[item] || "#C8194A" }} 
-                  />
+          {/* DÉTAILS GÂTEAU */}
+          <section className="info-card">
+            <div className="card-title">
+              <Cake size={20} color="#C8194A" />
+              <h3>Détails du gâteau</h3>
+            </div>
+
+            <div className="cake-details-grid">
+              <DetailItem label="Forme" value={selectedCake.name} />
+              <DetailItem
+                label="Taille"
+                value={`${selectedCake.people} pers.`}
+              />
+<DetailItem
+  label="Étages"
+  value={getLayers(selectedCake)}
+/>            <DetailItem
+                label="Crème"
+                value={frostingColor}
+                isColor
+              />
+              <DetailItem
+                label="Décor"
+                value={decor?.types?.join(", ")}
+              />
+              <DetailItem label="Texte" value={decor?.text} />
+            </div>
+          </section>
+
+          {/* CLIENT */}
+          <section className="info-card">
+            <div className="card-title">
+              <User size={20} color="#C8194A" />
+              <h3>Vos informations</h3>
+            </div>
+
+            <div className="client-form">
+              <div className="input-box">
+                <label>
+                  <User size={14} /> Nom complet
+                </label>
+                <input
+                  name="fullName"
+                  placeholder="Votre nom complet"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="input-box">
+                <label>
+                  <Phone size={14} /> Numéro de téléphone
+                </label>
+                <input
+                  name="phone"
+                  placeholder="+213 XXX XXX XXX"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="input-box">
+                <label>
+                  <MapPin size={14} /> Adresse exacte
+                </label>
+                <input
+                  name="address"
+                  placeholder={`Votre adresse à ${
+                    delivery?.wilaya || "Oran"
+                  }`}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* FINAL */}
+          <div className="summary-section">
+            <div className="summary-row">
+              <div className="ready-info">
+                <Clock size={18} color="#C8194A" />
+                <div>
+                  <small>Prêt estimé</small>
+                  <p>Selon la date choisie</p>
                 </div>
-              ))
-            ) : (
-              <span className="s-value italic">Décoration standard</span>
-            )}
-          </div>
-        </div>
+              </div>
 
-        {/* Garnitures par couches */}
-        <div className="summary-row column">
-          <span className="s-label">Garnitures</span>
-          <div className="filling-grid">
-            {fillingsByLayer?.some(f => f) ? (
-              fillingsByLayer.map((f, i) => f && (
-                <div key={i} className="filling-tag">
-                  <span className="layer-num">L{i + 1}</span>
-                  <span className="filling-name">{f}</span>
-                </div>
-              ))
-            ) : (
-              <span className="s-value italic">Aucune garniture</span>
-            )}
+              <div className="price-info">
+                <small>Total</small>
+                <p className="final-price">
+{totalPrice} DA                </p>
+              </div>
+            </div>
+
+            <button
+              className="confirm-btn"
+              disabled={!valid}
+              onClick={handleSubmit}
+            >
+              Confirmer la commande
+            </button>
           </div>
         </div>
       </div>
-
-      <div className="summary-divider"></div>
-
-      <div className="total-display">
-        <span className="total-title">PRIX TOTAL</span>
-        <div className="total-price-val">
-          {totalPrice?.toLocaleString() || "6 350"} DA
-        </div>
-      </div>
-
-      <button
-        className="confirm-btn"
-        disabled={!isFormValid || loading}
-        onClick={handleSubmit}
-      >
-        {loading ? "Traitement..." : "Confirmer la commande"}
-        {!loading && <ChevronRight size={18} />}
-      </button>
-    </div>
-  </div>
-</aside>
-
-          </div>
-        </div>
-      </main>
 
       <Footer />
     </div>
   );
 }
+
+const DetailItem = ({ label, value, isColor }) => (
+  <div className="detail-item">
+    <span className="detail-label">{label}:</span>
+    {isColor ? (
+      <span
+        className="detail-value color-preview"
+        style={{ background: value }}
+      ></span>
+    ) : (
+      <span className="detail-value">{value || "-"}</span>
+    )}
+  </div>
+);
