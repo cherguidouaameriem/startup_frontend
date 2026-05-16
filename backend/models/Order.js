@@ -7,7 +7,10 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
 
-  cake: Object,
+  cake: {
+  type: Object,
+  required: false,
+},
   frostingColor: String,
 
   decor: Object,

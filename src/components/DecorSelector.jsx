@@ -47,16 +47,17 @@ export default function DecorSelector({
       types: updated,
     });
   };
+const handleColorChange = (item, color) => {
+  const key = item.trim(); // 🔥 IMPORTANT
 
-  const handleColorChange = (item, color) => {
-    setDecor({
-      ...decor,
-      colors: {
-        ...decor.colors,
-        [item]: color,
-      },
-    });
-  };
+  setDecor((prev) => ({
+    ...prev,
+    colors: {
+      ...(prev.colors || {}),
+      [key]: color,
+    },
+  }));
+};
 
 const handleNext = () => {
   if (!selectedCake) {

@@ -2,29 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ChefHat, Menu, X } from "lucide-react";
 
-const CakeIcon = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#C8194A"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" />
-    <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1" />
-    <path d="M2 21h20" />
-    <path d="M7 8v3" />
-    <path d="M12 8v3" />
-    <path d="M17 8v3" />
-    <path d="M7 4h.01" />
-    <path d="M12 4h.01" />
-    <path d="M17 4h.01" />
-  </svg>
-);
-
 const defaultLinks = [
   { label: "Accueil", path: "/" },
   { label: "Pâtisseries", path: "/pastry-shops" },
@@ -74,7 +51,11 @@ export default function Navbar({ links = defaultLinks }) {
           onClick={() => navigate("/")}
           style={{ ...styles.logo, cursor: "pointer" }}
         >
-          <CakeIcon />
+          <img
+            src="/images/cakes/logo-halwatech.png"
+            alt="HalwaTech Logo"
+            style={styles.logoImage}
+          />
           <span style={styles.logoText}>HalwaTech</span>
         </div>
 
@@ -110,7 +91,6 @@ export default function Navbar({ links = defaultLinks }) {
             </button>
           )}
 
-          {/* MOBILE MENU */}
           {isMobile && (
             <button onClick={() => setIsOpen(!isOpen)} style={styles.menuIcon}>
               {isOpen ? (
@@ -174,10 +154,12 @@ const styles = {
     transition: "all 0.3s ease-in-out",
     fontFamily: "'Inter', sans-serif",
   },
+
   navTransparent: {
     background: "transparent",
     padding: "20px 0",
   },
+
   navScrolled: {
     background: "rgba(255, 255, 255, 0.98)",
     padding: "12px 0",
@@ -185,26 +167,37 @@ const styles = {
     borderBottom: "1px solid #eaeaea",
     boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
   },
+
   inner: {
     maxWidth: 1280,
     margin: "0 auto",
-    padding: "0 24px", // Réduit pour mobile
+    padding: "0 24px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
   },
+
   logo: {
     display: "flex",
     alignItems: "center",
     gap: 10,
     zIndex: 1001,
   },
+
+  logoImage: {
+    width: 28,
+    height: 28,
+    objectFit: "cover",
+    borderRadius: "8px",
+  },
+
   logoText: {
     fontWeight: 700,
     fontSize: 20,
     color: "#1f2937",
     letterSpacing: "-0.5px",
   },
+
   navLinks: {
     display: "flex",
     listStyle: "none",
@@ -215,23 +208,27 @@ const styles = {
     left: "50%",
     transform: "translateX(-50%)",
   },
+
   linkText: {
     fontSize: 15,
     color: "#6b7280",
-    textDecoration: "none",
     fontWeight: 500,
+    cursor: "pointer",
   },
+
   activeLinkText: {
     fontSize: 15,
     color: "#C8194A",
-    textDecoration: "none",
     fontWeight: 600,
+    cursor: "pointer",
   },
+
   rightSection: {
     display: "flex",
     alignItems: "center",
     zIndex: 1001,
   },
+
   portalBtn: {
     display: "flex",
     alignItems: "center",
@@ -245,6 +242,7 @@ const styles = {
     padding: "8px 16px",
     borderRadius: "8px",
   },
+
   menuIcon: {
     background: "none",
     border: "none",
@@ -253,6 +251,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
   },
+
   mobileOverlay: {
     position: "fixed",
     top: 0,
@@ -266,6 +265,7 @@ const styles = {
     alignItems: "center",
     zIndex: 1000,
   },
+
   mobileLinks: {
     listStyle: "none",
     padding: 0,
@@ -275,18 +275,21 @@ const styles = {
     alignItems: "center",
     gap: 30,
   },
+
   mobileLink: {
     fontSize: 22,
     color: "#4b5563",
-    textDecoration: "none",
     fontWeight: 500,
+    cursor: "pointer",
   },
+
   mobileActiveLink: {
     fontSize: 22,
     color: "#C8194A",
-    textDecoration: "none",
     fontWeight: 700,
+    cursor: "pointer",
   },
+
   mobilePortalBtn: {
     display: "flex",
     alignItems: "center",
@@ -298,5 +301,5 @@ const styles = {
     borderRadius: "12px",
     fontSize: 16,
     fontWeight: 600,
-  }
+  },
 };

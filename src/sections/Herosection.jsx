@@ -21,10 +21,23 @@ export default function HeroSection({ onBrowseShops }) {
         >
           
 
-          <h1 className="hero-title">
-            Créez, <span className="text-accent">visualisez en</span>
-            <span className="text-accent">3D</span>, et <span className="text-accent">savourez</span>
-          </h1>
+       <h1 className="hero-title">
+  <span className="title-line">Créez,</span>
+
+  <span className="title-line">
+    <span className="text-accent visualisez">
+      visualisez en
+    </span>{" "}
+    
+    <span className="title-3d">
+      3D
+    </span>
+  </span>
+
+  <span className="title-line">
+    et <span className="text-accent savor">savourez</span>
+  </span>
+</h1>
 
           <p className="hero-description">
             La première plateforme qui connecte vos designs uniques 
@@ -102,15 +115,55 @@ onClick={() => navigate("/pastry-shops")}>
           box-shadow: 0 0 10px rgba(200, 25, 74, 0.4);
         }
 
-        .hero-title {
-          font-family: 'Playfair Display', serif;
-          font-size: clamp(50px, 6vw, 86px);
-          line-height: 1.05;
-          font-weight: 800;
-          color: #1a1a2e;
-          margin: 0 0 25px 0;
-        }
+       
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(55px, 7vw, 92px);
+  line-height: 0.95;
+  font-weight: 100;
+  margin: 0 0 30px 0;
+  letter-spacing: -2px;
+}
 
+.title-line {
+  display: block;
+  color: #1a1a2e;
+  position: relative;
+}
+
+/* effet profondeur */
+.title-3d {
+  font-size: clamp(50px, 9vw, 90px);
+  color: #C8194A;
+
+  text-shadow:
+    0 1px 0 #b51642,
+    0 2px 0 #aa143d,
+    0 3px 0 #9c1238,
+    0 4px 0 #8d1032,
+    0 5px 10px rgba(0,0,0,0.18);
+
+  transform: perspective(500px) rotateX(8deg);
+}
+
+
+
+
+
+/* responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    line-height: 1;
+    gap: 10px;
+  }
+
+  .title-3d {
+    transform: none;
+  }
+}
         .text-accent {
           color: #C8194A;
         }

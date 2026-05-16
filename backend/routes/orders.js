@@ -41,5 +41,36 @@ router.get("/patisserie/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+// 🔥 UPDATE ORDER STATUS
+router.patch("/:id/status", async (req, res) => {
+  try {
+    const { status } = req.body;
 
+    const allowedStatuses = [
+      "pending",
+      "accepted",
+      "preparing",
+      "ready",
+      "delivered",
+    ];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 module.exports = router;

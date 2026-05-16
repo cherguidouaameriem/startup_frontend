@@ -171,7 +171,21 @@ body, html {
     align-items: center;
     gap: 12px;
 }
+.status-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  font-weight: 500;
+  background: white;
+  cursor: pointer;
+}
 
+.status-select:focus {
+  outline: none;
+  border-color: #C8194A;
+  box-shadow: 0 0 0 2px rgba(200, 25, 74, 0.15);
+}
 /* --- Status Pills & Boutons --- */
 .status-pill {
     padding: 6px 12px;
