@@ -40,7 +40,7 @@ const PRICING = {
   decor: {
     "pouchage 1": 100,
     "Décoration de gâteau": 300,
-    chocolate: 250,
+    
   },
 
   fillings: {

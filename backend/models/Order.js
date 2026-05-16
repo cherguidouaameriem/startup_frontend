@@ -8,13 +8,23 @@ const orderSchema = new mongoose.Schema({
   },
 
   cake: {
-  type: Object,
-  required: false,
+  name: String,
+  people: Number,
+  sponge: String,
+  price: Number
 },
-  frostingColor: String,
 
-  decor: Object,
+frostingColor: String,
 
+decor: {
+  types: [String],
+  colors: Object,
+  text: String
+},
+
+fillingsByLayer: [String],
+
+totalPrice: Number,
   customer: {
     fullName: String,
     phone: String,

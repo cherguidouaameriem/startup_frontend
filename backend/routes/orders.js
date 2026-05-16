@@ -6,27 +6,66 @@ const Order = require("../models/Order");
 // 🔥 CREATE ORDER
 router.post("/", async (req, res) => {
   try {
-    console.log("🔥 ORDER RECEIVED:", req.body);
+    const { patisserieId, cake, decor, fillingsByLayer, frostingColor, customer, deliveryDate } = req.body;
 
-    const { patisserieId } = req.body;
-
-    if (!patisserieId) {
-      return res.status(400).json({
-        message: "patisserieId missing",
-        received: req.body,
-      });
+    if (!patisserieId || !cake) {
+      return res.status(400).json({ message: "Missing data" });
     }
 
-    const order = new Order(req.body);
-    await order.save();
+    // 🔥 START PRICE
+    let totalPrice = Number(cake?.basePrice) || 0;
 
-    res.status(201).json({
-      message: "Order created ✅",
-      order,
+    // 🔥 DECOR
+    const decorPricing = {
+      "pouchage 1": 100,
+      "Décoration de gâteau": 300,
+    };
+
+    (decor?.types || []).forEach((d) => {
+      totalPrice += decorPricing[d] || 0;
     });
+
+    // 🔥 FILLINGS
+    const fillingsPricing = {
+      chocolat: 100,
+      caramel: 120,
+      lotus: 180,
+      fraise: 130,
+      nutella: 200,
+    };
+
+    (fillingsByLayer || []).forEach((f) => {
+      if (!f) return;
+      const key = String(f).toLowerCase().trim();
+      totalPrice += fillingsPricing[key] || 0;
+    });
+
+    // 🔥 DEBUG IMPORTANT (AJOUTE CA TEMPORAIRE)
+    console.log("💰 TOTAL PRICE CALCULATED:", totalPrice);
+
+    const order = new Order({
+      patisserieId,
+      cake,
+      decor,
+      fillingsByLayer,
+      frostingColor,
+      customer,
+      deliveryDate,
+      totalPrice, // 🔥 ONLY THIS VALUE
+    });
+
+    const saved = await order.save();
+
+    console.log("✅ SAVED ORDER:", saved.totalPrice);
+
+    return res.status(201).json({
+      message: "Order created ✅",
+      order: saved,
+    });
+
   } catch (err) {
     console.log("❌ ERROR:", err);
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 });
 // 🔥 GET ORDERS FOR ONE PATISSERIE

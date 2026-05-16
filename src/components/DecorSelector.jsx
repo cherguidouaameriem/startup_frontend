@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 const DECORS = [
   "pouchage 1",
   "Décoration de gâteau",
-  "Chocolate",
 ];
 
 const COLORS = [

@@ -177,7 +177,7 @@ const handleUpdateProfile = async () => {
         {activeTab === "Overview" && (
           <div className="admin-stats-grid">
             <StatBox icon={<Package color="#C8194A"/>} label="Total Commandes" value={orders.length} />
-            <StatBox icon={<CheckCircle color="#C8194A"/>} label="Confirmées" value={orders.filter(o => o.status === "confirmed").length} />
+            <StatBox icon={<CheckCircle color="#C8194A"/>} label="Confirmées" value={orders.filter(o => o.status === "accepted").length} />
             <StatBox icon={<Clock color="#C8194A"/>} label="En attente" value={orders.filter(o => o.status === "pending").length} />
             <StatBox icon={<TrendingUp color="#C8194A"/>} label="Revenus" value={`${orders.reduce((sum, o) => sum + (o.totalPrice || 0), 0)} DA`} />
           </div>
@@ -366,7 +366,7 @@ const handleUpdateProfile = async () => {
               </span>
 
               <span className="item-sub">
-                {order.cake?.name} • {order.cake?.layers} étage(s)
+                {order.cake?.name} • {order.cake?.people} pr(s)
               </span>
             </div>
 
@@ -429,9 +429,12 @@ const handleUpdateProfile = async () => {
               <div className="detail-group">
                 <h4><ShoppingBag size={16}/> Spécifications du Gâteau</h4>
                 <div className="cake-grid-mini">
-                  <p><strong>Forme:</strong> {selectedorder.cake?.name}</p>
-                  <p><strong>Étages:</strong> {selectedorder.cake?.layers}</p>
+                  <p><strong>Forme:</strong> {selectedOrder.cake?.name}</p>
+                  <p><strong>people:</strong> {selectedOrder.cake?.people}</p>
                   <p><strong>Crème:</strong> <span className="color-preview" style={{backgroundColor: selectedOrder.frostingColor}}></span></p>
+           {selectedOrder.fillingsByLayer?.map((f, i) => (
+  <p key={i}>Layer {i + 1}: {f}</p>
+))}
                   <p><strong>Décors:</strong> {selectedOrder.decor?.types?.join(", ") || "Classique"}</p>
                 </div>
                 {selectedOrder.decor?.text && (
@@ -446,16 +449,18 @@ const handleUpdateProfile = async () => {
             <div className="modal-footer">
                <div className="modal-total">
                  <span>Prix Total</span>
-                 <strong>{selectedOrder.totalPrice || selectedorder.cake?.price} DA</strong>
+             <strong>
+  {(selectedOrder.totalPrice ?? 0)} DA
+</strong>
                </div>
                
                <div className="modal-actions">
                  {selectedOrder.status === "pending" && (
-                   <button className="main-confirm-btn" onClick={() => updateStatus(selectedOrder._id, "confirmed")}>
+                   <button className="main-confirm-btn" onClick={() => updateStatus(selectedOrder._id, "accepted")}>
                      Confirmer la commande
                    </button>
                  )}
-                 {selectedOrder.status === "confirmed" && (
+                 {selectedOrder.status === "accepted" && (
                    <button className="main-deliver-btn" onClick={() => updateStatus(selectedOrder._id, "delivered")}>
                      Confirmer la Livraison
                    </button>
