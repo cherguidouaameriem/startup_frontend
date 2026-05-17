@@ -143,7 +143,18 @@ export default function ShopLogin() {
               Se connecter
             </button>
           </form>
+          <div style={styles.footerLink}>
+  <span>Vous n'avez pas de compte ? </span>
+
+  <button
+    onClick={() => navigate("/partner-form")}
+    style={styles.registerLink}
+  >
+    Inscrivez-vous ici
+  </button>
+</div>
         </div>
+        
       </main>
 
       <Footer />
@@ -267,4 +278,20 @@ const styles = {
     cursor: "pointer",
     marginTop: "10px",
   },
+  footerLink: {
+  marginTop: "18px",
+  fontSize: "13px",
+  color: "#6b7280",
+  textAlign: "center",
+},
+
+registerLink: {
+  background: "none",
+  border: "none",
+  color: "#C8194A",
+  fontWeight: "600",
+  cursor: "pointer",
+  padding: 0,
+  fontSize: "13px",
+},
 };
