@@ -74,18 +74,18 @@ export default function ShopLogin() {
           </h3>
 
           <p style={styles.demoTextLine}>
-            Email: <b>sweetcake@halwatech.dz</b>
+            Email: <b>asmaacherdouane@gmail.com</b>
           </p>
 
           <p style={styles.demoTextLine}>
-            Mot de passe: <b>sweetcake123</b>
+            Mot de passe: <b>asma2003</b>
           </p>
 
           <button
             style={styles.demoBtn}
             onClick={() => {
-              setEmail("sweetcake@halwatech.dz");
-              setPassword("sweetcake123");
+              setEmail("asmaacherdouane@gmail.com");
+              setPassword("asma2003");
             }}
           >
             Remplir automatiquement
