@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ChefHat, Menu, X } from "lucide-react";
+import { ChefHat, Menu, X, Shield } from "lucide-react";
 
 const defaultLinks = [
   { label: "Accueil", path: "/" },
   { label: "Pâtisseries", path: "/pastry-shops" },
+  { label: "Admin", path: "/admin" }, // ✅ added admin
 ];
 
 export default function Navbar({ links = defaultLinks }) {
@@ -18,7 +19,10 @@ export default function Navbar({ links = defaultLinks }) {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth >= 768) setIsOpen(false);
+
+      if (window.innerWidth >= 768) {
+        setIsOpen(false);
+      }
     };
 
     const handleScroll = () => {
@@ -56,6 +60,7 @@ export default function Navbar({ links = defaultLinks }) {
             alt="HalwaTech Logo"
             style={styles.logoImage}
           />
+
           <span style={styles.logoText}>HalwaTech</span>
         </div>
 
@@ -82,17 +87,33 @@ export default function Navbar({ links = defaultLinks }) {
         {/* RIGHT SECTION */}
         <div style={styles.rightSection}>
           {!isMobile && (
-            <button
-              style={styles.portalBtn}
-              onClick={() => navigate("/connexion_patis")}
-            >
-              <ChefHat size={18} />
-              <span>Portail Pâtissier</span>
-            </button>
+            <>
+              {/* ADMIN BUTTON */}
+              <button
+                style={styles.adminBtn}
+                onClick={() => navigate("/admin")}
+              >
+                <Shield size={17} />
+                <span>Admin</span>
+              </button>
+
+              {/* PORTAL BUTTON */}
+              <button
+                style={styles.portalBtn}
+                onClick={() => navigate("/connexion_patis")}
+              >
+                <ChefHat size={18} />
+                <span>Portail Pâtissier</span>
+              </button>
+            </>
           )}
 
+          {/* MOBILE MENU ICON */}
           {isMobile && (
-            <button onClick={() => setIsOpen(!isOpen)} style={styles.menuIcon}>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              style={styles.menuIcon}
+            >
               {isOpen ? (
                 <X size={28} color="#1f2937" />
               ) : (
@@ -125,7 +146,22 @@ export default function Navbar({ links = defaultLinks }) {
               </li>
             ))}
 
-            <li style={{ marginTop: 20 }}>
+            {/* ADMIN BUTTON MOBILE */}
+            <li>
+              <button
+                style={styles.mobileAdminBtn}
+                onClick={() => {
+                  navigate("/admin");
+                  setIsOpen(false);
+                }}
+              >
+                <Shield size={20} />
+                <span>Admin</span>
+              </button>
+            </li>
+
+            {/* PORTAL BUTTON MOBILE */}
+            <li style={{ marginTop: 10 }}>
               <button
                 style={styles.mobilePortalBtn}
                 onClick={() => {
@@ -214,6 +250,7 @@ const styles = {
     color: "#6b7280",
     fontWeight: 500,
     cursor: "pointer",
+    transition: "0.2s",
   },
 
   activeLinkText: {
@@ -226,7 +263,22 @@ const styles = {
   rightSection: {
     display: "flex",
     alignItems: "center",
+    gap: 12,
     zIndex: 1001,
+  },
+
+  adminBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    background: "#111827",
+    color: "#fff",
+    border: "none",
+    fontSize: 14,
+    fontWeight: 600,
+    cursor: "pointer",
+    padding: "8px 16px",
+    borderRadius: "8px",
   },
 
   portalBtn: {
@@ -288,6 +340,19 @@ const styles = {
     color: "#C8194A",
     fontWeight: 700,
     cursor: "pointer",
+  },
+
+  mobileAdminBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    background: "#111827",
+    color: "#fff",
+    border: "none",
+    padding: "12px 24px",
+    borderRadius: "12px",
+    fontSize: 16,
+    fontWeight: 600,
   },
 
   mobilePortalBtn: {

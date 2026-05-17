@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ChefHat } from "lucide-react";
-import toast, { Toaster } from "react-hot-toast"; // 🔥 Import des notifications
+import toast, { Toaster } from "react-hot-toast";
+
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import {API} from "../api";
+import { API } from "../api";
+
 export default function ShopLogin() {
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,14 +17,12 @@ export default function ShopLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Vérification du format email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      toast.error("Format email invalide", { icon: '📧' });
+      toast.error("Format email invalide 📧");
       return;
     }
 
-    // Notification de chargement
     const loadingToast = toast.loading("Connexion en cours...");
 
     try {
@@ -35,91 +36,105 @@ export default function ShopLogin() {
 
       if (!res.ok) {
         toast.dismiss(loadingToast);
-        toast.error(data.message === "Partner not found"
-          ? "Compte introuvable"
-          : "Email ou mot de passe incorrect"
+        toast.error(
+          data.message === "Partner not found"
+            ? "Compte introuvable"
+            : "Email ou mot de passe incorrect"
         );
         return;
       }
 
-      // Stockage local
       localStorage.setItem("token", data.token);
       localStorage.setItem("partnerId", data.partner.id);
 
-      // Succès
       toast.dismiss(loadingToast);
-      toast.success("Bienvenue chez vous ! ✨");
-      
+      toast.success("Bienvenue chez Sweet Cake ✨");
+
       setTimeout(() => {
         navigate("/dashboard");
       }, 1000);
-
     } catch (err) {
       toast.dismiss(loadingToast);
-      toast.error("Erreur serveur, réessayez plus tard");
+      toast.error("Erreur serveur");
     }
   };
 
   return (
     <div style={styles.pageWrapper}>
-      {/* Conteneur de notifications (Gère le rendu visuel) */}
-      <Toaster 
-        position="top-center" 
-        reverseOrder={false} 
-        toastOptions={{
-          style: {
-            borderRadius: '10px',
-            background: '#333',
-            color: '#fff',
-            fontSize: '14px'
-          },
-        }}
-      />
-      
+      <Toaster position="top-center" />
+
       <Navbar />
-      
+
       <main style={styles.mainContent}>
+
+        {/* 🔥 DEMO BOX */}
+        <div style={styles.demoBox}>
+          <h3 style={{ color: "#C8194A", marginBottom: 8 }}>
+            🎯 Accès Démo — Sweet Cake
+          </h3>
+
+          <p style={styles.demoTextLine}>
+            Email: <b>sweetcake@halwatech.dz</b>
+          </p>
+
+          <p style={styles.demoTextLine}>
+            Mot de passe: <b>sweetcake123</b>
+          </p>
+
+          <button
+            style={styles.demoBtn}
+            onClick={() => {
+              setEmail("sweetcake@halwatech.dz");
+              setPassword("sweetcake123");
+            }}
+          >
+            Remplir automatiquement
+          </button>
+        </div>
+
+        {/* LOGIN CARD */}
         <div style={styles.loginCard}>
           <div style={styles.headerSection}>
-            <div style={styles.iconContainer}>
-              <ChefHat size={24} color="#C8194A" />
-            </div>
+            <ChefHat size={26} color="#C8194A" />
             <h1 style={styles.title}>Connexion</h1>
-            <p style={styles.subtitle}>Accédez au tableau de bord de votre boutique</p>
+            <p style={styles.subtitle}>
+              Accédez au tableau de bord de votre boutique
+            </p>
           </div>
 
           <form onSubmit={handleLogin} style={styles.form}>
+
             <div style={styles.inputGroup}>
               <label style={styles.label}>Email</label>
-              <div style={styles.inputWrapper}>
-                <input
-                  type="email"
-                  placeholder="boutique@exemple.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  style={styles.input}
-                  required
-                />
-              </div>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={styles.input}
+                placeholder="boutique@exemple.com"
+                required
+              />
             </div>
 
             <div style={styles.inputGroup}>
               <label style={styles.label}>Mot de passe</label>
-              <div style={{ ...styles.inputWrapper, border: "1.5px solid #C8194A" }}>
+
+              <div style={styles.passwordBox}>
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   style={styles.input}
+                  placeholder="••••••••"
                   required
                 />
+
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  style={styles.eyeButton}
+                  style={styles.eyeBtn}
                 >
-                  {showPassword ? <EyeOff size={18} color="#9ca3af" /> : <Eye size={18} color="#9ca3af" />}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
@@ -128,16 +143,6 @@ export default function ShopLogin() {
               Se connecter
             </button>
           </form>
-
-          <div style={styles.footerLink}>
-            <span>Vous n'avez pas de compte ? </span>
-            <button 
-              onClick={() => navigate("/partner-form")} 
-              style={styles.registerLink}
-            >
-              Inscrivez-vous ici
-            </button>
-          </div>
         </div>
       </main>
 
@@ -146,122 +151,120 @@ export default function ShopLogin() {
   );
 }
 
-// Les styles restent identiques à votre version
+/* ================= STYLES ================= */
+
 const styles = {
   pageWrapper: {
-    display: "flex",
-    flexDirection: "column",
     minHeight: "100vh",
-    backgroundColor: "#f9fafb",
+    background: "#f9fafb",
   },
+
   mainContent: {
-    flex: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    padding: "0 20px",
-    marginTop: "100px",
-    marginBottom: "60px",
+    padding: "120px 20px 60px",
+    gap: "20px",
   },
-  loginCard: {
+
+  /* DEMO BOX */
+  demoBox: {
     width: "100%",
-    maxWidth: "400px",
-    backgroundColor: "#ffffff",
-    borderRadius: "20px",
-    padding: "32px",
-    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04)",
+    maxWidth: "420px",
+    background: "#fff7f9",
+    border: "1px solid #ffd1dc",
+    borderRadius: "14px",
+    padding: "16px",
     textAlign: "center",
   },
+
+  demoTextLine: {
+    fontSize: "13px",
+    color: "#374151",
+    margin: "4px 0",
+  },
+
+  demoBtn: {
+    marginTop: "10px",
+    background: "#C8194A",
+    color: "#fff",
+    border: "none",
+    padding: "8px 14px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "600",
+    fontSize: "12px",
+  },
+
+  /* LOGIN CARD */
+  loginCard: {
+    width: "100%",
+    maxWidth: "420px",
+    background: "#fff",
+    borderRadius: "18px",
+    padding: "28px",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+    textAlign: "center",
+  },
+
   headerSection: {
-    marginBottom: "24px",
+    marginBottom: "20px",
   },
-  iconContainer: {
-    width: "48px",
-    height: "48px",
-    backgroundColor: "#FFF1F2",
-    borderRadius: "12px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "0 auto 16px",
-  },
+
   title: {
     fontSize: "22px",
     fontWeight: "700",
-    color: "#1f2937",
-    marginBottom: "6px",
-    fontFamily: "'Inter', sans-serif",
   },
+
   subtitle: {
-    fontSize: "14px",
+    fontSize: "13px",
     color: "#6b7280",
   },
+
   form: {
     textAlign: "left",
   },
+
   inputGroup: {
-    marginBottom: "16px",
+    marginBottom: "14px",
   },
+
   label: {
-    display: "block",
     fontSize: "13px",
     fontWeight: "600",
-    color: "#374151",
     marginBottom: "6px",
+    display: "block",
   },
-  inputWrapper: {
+
+  input: {
+    width: "100%",
+    padding: "10px 12px",
+    borderRadius: "10px",
+    border: "1px solid #e5e7eb",
+    outline: "none",
+  },
+
+  passwordBox: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: "#f9fafb",
-    border: "1px solid #e5e7eb",
-    borderRadius: "10px",
-    padding: "0 14px",
-    height: "44px",
+    gap: "8px",
   },
-  input: {
-    flex: 1,
-    border: "none",
-    background: "none",
-    outline: "none",
-    fontSize: "14px",
-    color: "#1f2937",
-    width: "100%",
-  },
-  eyeButton: {
-    background: "none",
+
+  eyeBtn: {
+    background: "transparent",
     border: "none",
     cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    padding: 0,
-    marginLeft: "8px",
   },
+
   submitBtn: {
     width: "100%",
-    height: "44px",
-    backgroundColor: "#C8194A",
-    color: "#ffffff",
+    padding: "12px",
+    background: "#C8194A",
+    color: "#fff",
     border: "none",
     borderRadius: "10px",
-    fontSize: "15px",
     fontWeight: "600",
     cursor: "pointer",
-    marginTop: "8px",
-    transition: "background 0.2s ease",
-  },
-  footerLink: {
-    marginTop: "20px",
-    fontSize: "13px",
-    color: "#6b7280",
-  },
-  registerLink: {
-    background: "none",
-    border: "none",
-    color: "#C8194A",
-    fontWeight: "600",
-    cursor: "pointer",
-    padding: 0,
-    fontSize: "13px",
+    marginTop: "10px",
   },
 };

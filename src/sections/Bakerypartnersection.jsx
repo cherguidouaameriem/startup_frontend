@@ -106,7 +106,7 @@ export default function BakeryPartnerSection() {
             className="partner-image-wrapper"
           >
             <img
-              src="/images/cakes/1000038244.png"
+              src="/images/cakes/baking.jpg"
               alt="Bakery"
               style={styles.image}
               className="partner-image"

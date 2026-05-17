@@ -39,7 +39,116 @@
   padding: 40px;
   margin-bottom: 40px;
 }
+.startup-guide-box {
+  max-width: 900px;
+  margin: 0 auto 40px auto;
+  padding: 32px;
 
+  border-radius: 24px;
+
+  background: linear-gradient(
+    135deg,
+    #fff5f7 0%,
+    #ffffff 100%
+  );
+
+  border: 1px solid #ffd6e0;
+
+  text-align: center;
+
+  box-shadow: 0 10px 30px rgba(200, 25, 74, 0.08);
+}
+
+.guide-badge {
+  display: inline-block;
+
+  background: #c8194a;
+  color: white;
+
+  padding: 8px 16px;
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  margin-bottom: 18px;
+}
+
+.startup-guide-box h2 {
+  font-size: 30px;
+  margin-bottom: 14px;
+  color: #1f2937;
+}
+
+.startup-guide-box h2 span {
+  color: #c8194a;
+}
+
+.startup-guide-box p {
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.guide-select-btn {
+  border: none;
+  background: #c8194a;
+  color: white;
+
+  padding: 14px 28px;
+
+  border-radius: 14px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.guide-select-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(200, 25, 74, 0.25);
+}
+
+.recommended-baker {
+  border: 2px solid #c8194a !important;
+  box-shadow: 0 10px 30px rgba(200, 25, 74, 0.12);
+  position: relative;
+}
+
+.recommended-baker::before {
+  content: "⭐ Recommandé";
+  position: absolute;
+
+  top: -12px;
+  right: 18px;
+
+  background: #c8194a;
+  color: white;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .startup-guide-box {
+    padding: 24px 18px;
+  }
+
+  .startup-guide-box h2 {
+    font-size: 24px;
+  }
+
+  .guide-select-btn {
+    width: 100%;
+  }
+}
 .baker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
